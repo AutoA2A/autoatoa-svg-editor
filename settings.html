@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>设置</title>
+<style>
+:root{
+    --primary:#2563eb;
+    --secondary:#10b981;
+    --bg:#fff;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+}
+body{margin:0;font-family:sans-serif;background:#f9fafb;color:#111827;}
+main{margin-top:3.5rem;padding:16px;}
+h1{margin-top 0;margin-bottom 1rem;font-size:1.5rem;color:var(--primary);text-align:center;}
+.settings-card{
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:16px;
+    margin-bottom:16px;
+    box-shadow:0 2px 4px rgba(0,0,0,0.1);
+}
+.settings-card h2{margin-top 0;margin-bottom 1rem;font-size:1.2rem;color:var(--primary);}
+.label{display:block;margin-top:0.6rem;font-size:0.9rem;color:#374151;}
+input[type=color]{width:100%;height:2.4rem;border:none;background:none;padding:0;}
+input[type=range]{width:100%;margin-top:0.2rem;}
+input[type=number]{width:60px;padding:0.2rem;border:1px solid var(--border);border-radius:4px;}
+select{width:100%;padding:0.4rem;border:1px solid var(--border);border-radius:4px;background:#fff;}
+button{
+    display:block;width:100%;margin:0.5rem 0;
+    padding:0.5rem;font-size:0.9rem;
+    background:var(--primary);color:#fff;border:none;
+    border-radius:6px;cursor:pointer;
+}
+button:hover{background:#1d4ed8;}
+button:active{transform:scale(0.98);}
+.preview-box{
+    width:100%;height:120px;border:1px dashed var(--border);
+    border-radius:6px;background:#fafafa;display:flex;align-items:center;justify-content:center;
+    color:#6b7280;font-size:0.9rem;
+}
+.grid-preview{position:relative;width:100%;height:100%;}
+.grid-preview::before{
+    content:"";position:absolute;inset:0;
+    background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size:20px 20px;
+    opacity:0.5;
+}
+</style>
+<meta name="description" content="调整画布背景、网格、默认笔触、颜色主题，修改即时生效。"><meta name="keywords" content="SVG,绘图,编辑器,矢量图,在线工具,导出,模板,历程"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="设置"><meta property="og:description" content="调整画布背景、网格、默认笔触、颜色主题，修改即时生效。"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="设置"><meta name="twitter:description" content="调整画布背景、网格、默认笔触、颜色主题，修改即时生效。"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"设置","description":"调整画布背景、网格、默认笔触、颜色主题，修改即时生效。","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
+<body>
+<main>
+<h1>设置</h1>
+
+<section class="settings-card">
+    <h2>画布背景</h2>
+    <label class="label" for="bg-color">背景颜色</label>
+    <input type="color" id="bg-color" value="#ffffff">
+    <div class="preview-box" id="bg-preview">
+        预览
+    </div>
+</section>
+
+<section class="settings-card">
+    <h2>网格</h2>
+    <label class="label" for="grid-toggle">显示网格</label>
+    <input type="checkbox" id="grid-toggle">
+    <label class="label" style="margin-top:0.4rem;" for="grid-size">网格大小（像素）</label>
+    <input type="range" id="grid-size" min="5" max="50" value="20">
+    <div style="display:flex;align-items:center;gap:8px;margin-top:0.4rem;">
+        <span id="grid-size-value">20</span> px
+    </div>
+    <div class="preview-box grid-preview" id="grid-preview"></div>
+</section>
+
+<section class="settings-card">
+    <h2>默认笔触</h2>
+    <label class="label" for="stroke-color">笔触颜色</label>
+    <input type="color" id="stroke-color" value="#2563eb">
+    <label class="label" style="margin-top:0.4rem;" for="stroke-width">笔触宽度</label>
+    <input type="range" id="stroke-width" min="1" max="10" value="2">
+    <div style="display:flex;align-items:center;gap:8px;margin-top:0.4rem;">
+        <span id="stroke-width-value">2</span> px
+    </div>
+    <div class="preview-box" id="stroke-preview">
+        <svg width="100%" height="100%" viewBox="0 0 100 40">
+            <line x1="10" y1="20" x2="90" y2="20" stroke="#2563eb" stroke-width="2"/>
+        </svg>
+    </div>
+</section>
+
+<section class="settings-card">
+    <h2>颜色主题</h2>
+    <label class="label" for="theme-select">选择主题</label>
+    <select id="theme-select">
+        <option value="default">默认 (蓝/绿)</option>
+        <option value="dark">暗色</option>
+        <option value="sepia">塞皮亚</option>
+    </select>
+    <div class="preview-box" id="theme-preview">
+        主题预览
+    </div>
+</section>
+
+<button id="reset-defaults">恢复默认设置</button>
+</main>
+
+<script>
+(() => {
+    const STORAGE_KEY = 'svgEditorSettings';
+    const defaults = {
+        bgColor: '#ffffff',
+        gridShow: true,
+        gridSize: 20,
+        strokeColor: '#2563eb',
+        strokeWidth: 2,
+        theme: 'default'
+    };
+    let settings = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {...defaults};
+
+    // DOM elements
+    const bgColorInput = document.getElementById('bg-color');
+    const bgPreview = document.getElementById('bg-preview');
+    const gridToggle = document.getElementById('grid-toggle');
+    const gridSizeInput = document.getElementById('grid-size');
+    const gridSizeValue = document.getElementById('grid-size-value');
+    const gridPreview = document.getElementById('grid-preview');
+    const strokeColorInput = document.getElementById('stroke-color');
+    const strokeWidthInput = document.getElementById('stroke-width');
+    const strokeWidthValue = document.getElementById('stroke-width-value');
+    const strokePreviewSvg = document.querySelector('#stroke-preview svg');
+    const themeSelect = document.getElementById('theme-select');
+    const themePreview = document.getElementById('theme-preview');
+    const resetBtn = document.getElementById('reset-defaults');
+
+    // Sync UI with settings
+    function syncUI() {
+        bgColorInput.value = settings.bgColor;
+        bgPreview.style.backgroundColor = settings.bgColor;
+        gridToggle.checked = settings.gridShow;
+        gridSizeInput.value = settings.gridSize;
+        gridSizeValue.textContent = settings.gridSize;
+        updateGridPreview();
+        strokeColorInput.value = settings.strokeColor;
+        strokeWidthInput.value = settings.strokeWidth;
+        strokeWidthValue.textContent = settings.strokeWidth;
+        updateStrokePreview();
+        themeSelect.value = settings.theme;
+        updateThemePreview();
+    }
+
+    // Update preview functions
+    function updateGridPreview() {
+        const size = settings.gridSize;
+        gridPreview.style.setProperty('--gs', `${size}px`);
+        // Use CSS variable for grid size in background
+        gridPreview.style.backgroundSize = `${size}px ${size}px`;
+    }
+    function updateStrokePreview() {
+        const color = settings.strokeColor;
+        const width = settings.strokeWidth;
+        strokePreviewSvg.innerHTML = `<line x1="10" y1="20" x2="90" y2="20" stroke="${color}" stroke-width="${width}"/>`;
+    }
+    function updateThemePreview() {
+        const theme = settings.theme;
+        let bg = '#fff', color = '#111';
+        switch(theme){
+            case 'dark': bg = '#1f2937'; color = '#f9fafb'; break;
+            case 'sepia': bg = '#faf3e0'; color = '#5d4037'; break;
+            default: bg = '#fff'; color = '#111';
+        }
+        themePreview.style.backgroundColor = bg;
+        themePreview.style.color = color;
+        themePreview.textContent = theme === 'default' ? '默认主题预览' : theme;
+    }
+
+    // Save settings and dispatch storage event
+    function saveSettings() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+        // Trigger storage event for other pages (like editor) to listen
+        window.dispatchEvent(new StorageEvent('storage', {
+            key: STORAGE_KEY,
+            newValue: JSON.stringify(settings)
+        }));
+    }
+
+    // Event listeners
+    bgColorInput.addEventListener('input', e => {
+        settings.bgColor = e.target.value;
+        bgPreview.style.backgroundColor = settings.bgColor;
+        saveSettings();
+    });
+    gridToggle.addEventListener('change', e => {
+        settings.gridShow = e.target.checked;
+        saveSettings();
+    });
+    gridSizeInput.addEventListener('input', e => {
+        const val = Number(e.target.value);
+        settings.gridSize = val;
+        gridSizeValue.textContent = val;
+        updateGridPreview();
+        saveSettings();
+    });
+    strokeColorInput.addEventListener('input', e => {
+        settings.strokeColor = e.target.value;
+        updateStrokePreview();
+        saveSettings();
+    });
+    strokeWidthInput.addEventListener('input', e => {
+        const val = Number(e.target.value);
+        settings.strokeWidth = val;
+        strokeWidthValue.textContent = val;
+        updateStrokePreview();
+        saveSettings();
+    });
+    themeSelect.addEventListener('change', e => {
+        settings.theme = e.target.value;
+        updateThemePreview();
+        saveSettings();
+    });
+    resetBtn.addEventListener('click', () => {
+        settings = {...defaults};
+        syncUI();
+        saveSettings();
+    });
+
+    // Initialize
+    syncUI();
+})();
+</script>
+<footer data-a2a="footer" style="margin-top:48px;padding:28px 16px;border-top:1px solid rgba(127,127,127,.16);text-align:center;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.9;color:#8a8f99;background:transparent"><a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:10px"><img src="https://agent.oagi.com.cn/uploads/202606/29ea3ed5413830b3.png" alt="AutoA2A" style="height:36px;vertical-align:middle;border:0"></a><div style="font-size:13.5px;color:#6b7280;max-width:760px;margin:0 auto 6px">✅️ <b>AutoA2A</b> · 智能体互连 Agent to Agent 平台——让智能体无缝发现、协商、协作与安全交换数据，开启 AI 即服务新时代。</div><div style="font-size:13px">本网站由 <a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="color:#f2603c;text-decoration:none;font-weight:600">www.autoa2a.org</a> 多个 AI 协作生成</div><div style="font-size:12px;color:#aab;margin-top:6px">Copyright © 2025 - 2026 AutoA2A. All Rights Reserved. A2A版权所有</div></footer></body>
+</html>
