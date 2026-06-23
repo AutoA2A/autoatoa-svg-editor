@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>使用帮助</title>
+<style>
+:root{
+    --primary:#2563eb;
+    --secondary:#10b981;
+    --bg:#fff;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+}
+body{
+    margin:0;
+    font-family:sans-serif;
+    background:#f9fafb;
+    color:#111827;
+    padding-top:4rem; /* 为自动注入的导航留出空间 */
+}
+main{
+    max-width:960px;
+    margin:0 auto;
+    padding:16px;
+}
+h1{
+    font-size:1.8rem;
+    color:var(--primary);
+    margin-bottom:0.5rem;
+}
+p{
+    line-height:1.6;
+    margin:0.8rem 0;
+}
+.step-overlay{
+    position:fixed;
+    top:0;left:0;right:0;bottom:0;
+    background:rgba(0,0,0,0.4);
+    z-index:1000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+}
+.step-box{
+    background:#fff;
+    border-radius:8px;
+    padding:1rem;
+    max-width:90%;
+    box-shadow:0 2px 8px rgba(0,0,0,0.2);
+    position:relative;
+}
+.step-box h3{
+    margin-top:0;
+    color:var(--primary);
+}
+.step-box button{
+    background:var(--primary);
+    color:#fff;
+    border:none;
+    padding:0.5rem 1rem;
+    border-radius:6px;
+    cursor:pointer;
+    margin-top:0.8rem;
+}
+.step-box button:hover{background:#1d4ed8;}
+.highlight{
+    position:relative;
+    z-index:1001;
+    animation: pulse 2s infinite;
+}
+@keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(37,99,235,0.5);}
+    70%{box-shadow:0 0 0 8px rgba(37,99,235,0);}
+    100%{box-shadow:0 0 0 0 rgba(37,99,235,0);}
+}
+</style>
+<meta name="description" content="交互式教程引导新手快速上手各项功能。"><meta name="keywords" content="SVG,绘图,编辑器,矢量图,在线工具,导出,模板,历程"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="使用帮助"><meta property="og:description" content="交互式教程引导新手快速上手各项功能。"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="使用帮助"><meta name="twitter:description" content="交互式教程引导新手快速上手各项功能。"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"使用帮助","description":"交互式教程引导新手快速上手各项功能。","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
+<body>
+<main>
+<h1>使用帮助</h1>
+<p>欢迎使用 SVG 在线编辑器！本页提供交互式教程，帮助您快速掌握绘图、编辑、保存等核心功能。</p>
+<p>点击下面的 <strong>开始教程</strong> 按钮，即可逐步了解编辑器的各个部件。</p>
+<button id="start-tutorial" style="background:var(--secondary);border:none;color:#fff;padding:0.6rem 1.2rem;border-radius:6px;cursor:pointer;">开始教程</button>
+</main>
+
+<div class="step-overlay" id="overlay">
+    <div class="step-box" id="stepBox">
+        <h3 id="stepTitle"></h3>
+        <p id="stepDesc"></p>
+        <div style="text-align:right;">
+            <button id="prevBtn">上一步</button>
+            <button id="nextBtn">下一步</button>
+        </div>
+    </div>
+</div>
+
+<script>
+(() => {
+    const steps = [
+        {
+            title: "工具栏",
+            desc: "左侧工具栏提供选择、矩形、圆形、直线、笔刷等绘图工具。点击任意工具即可开始绘制。",
+            selector: "#toolbar"
+        },
+        {
+            title: "属性面板",
+            desc: "右侧属性面板可以调节颜色、线宽、透明度等属性，实时影响选中元素。",
+            selector: "#props"
+        },
+        {
+            title: "绘图画布",
+            desc: "中间的大区域是 SVG 画布。点击或拖拽即可在此处绘制图形。",
+            selector: "#canvas-wrapper"
+        },
+        {
+            title: "撤销/重做",
+            desc: "使用顶部工具栏的撤销 (Ctrl+Z) 与重做 (Ctrl+Y) 按钮，可回退或恢复操作。",
+            selector: "#undo"
+        },
+        {
+            title: "保存与加载",
+            desc: "点击“保存到本地”将当前 SVG 下载为文件，使用“读取本地”可加载已保存的 SVG。",
+            selector: "#save"
+        },
+        {
+            title: "结束教程",
+            desc: "恭喜！您已完成基础教程。现在可以自由创作啦。如果需要再次查看帮助，请随时返回此页。",
+            selector: null
+        }
+    ];
+    let current = 0;
+    const overlay = document.getElementById('overlay');
+    const stepBox = document.getElementById('stepBox');
+    const stepTitle = document.getElementById('stepTitle');
+    const stepDesc = document.getElementById('stepDesc');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const startBtn = document.getElementById('start-tutorial');
+
+    function showStep(index){
+        current = index;
+        const step = steps[current];
+        stepTitle.textContent = step.title;
+        stepDesc.textContent = step.desc;
+        // 清除上一次高亮
+        document.querySelectorAll('.highlight').forEach(el=>el.classList.remove('highlight'));
+        if(step.selector){
+            const el = document.querySelector(step.selector);
+            if(el){
+                el.classList.add('highlight');
+                // 滚动到可视区域
+                el.scrollIntoView({behavior:'smooth',block:'center'});
+            }
+        }
+        prevBtn.style.display = current===0 ? 'none' : 'inline-block';
+        nextBtn.textContent = (current===steps.length-1) ? '完成' : '下一步';
+        overlay.style.display = 'flex';
+    }
+
+    function hideOverlay(){
+        overlay.style.display = 'none';
+        document.querySelectorAll('.highlight').forEach(el=>el.classList.remove('highlight'));
+    }
+
+    startBtn.addEventListener('click',()=>showStep(0));
+    prevBtn.addEventListener('click',()=>{ if(current>0) showStep(current-1); });
+    nextBtn.addEventListener('click',()=>{
+        if(current < steps.length-1){
+            showStep(current+1);
+        }else{
+            hideOverlay();
+        }
+    });
+    // 点击遮罩外部关闭（可选）
+    overlay.addEventListener('click', e=>{
+        if(e.target===overlay) hideOverlay();
+    });
+
+    // 简单的页面说明文字
+    const intro = document.createElement('p');
+    intro.innerHTML = '✅️AutoA2A是智能体互连 Agent to Agent平台，实现智能体间的无缝发现、协商、协作与数据安全交换，让您的智能体从信息孤岛走向高效协同，重塑数字化生产力。赋能多智能体生态发展自动化与AI协作,开启AI即服务新时代。';
+    document.querySelector('main').appendChild(intro);
+})();
+</script>
+<footer data-a2a="footer" style="margin-top:48px;padding:28px 16px;border-top:1px solid rgba(127,127,127,.16);text-align:center;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.9;color:#8a8f99;background:transparent"><a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:10px"><img src="https://agent.oagi.com.cn/uploads/202606/29ea3ed5413830b3.png" alt="AutoA2A" style="height:36px;vertical-align:middle;border:0"></a><div style="font-size:13.5px;color:#6b7280;max-width:760px;margin:0 auto 6px">✅️ <b>AutoA2A</b> · 智能体互连 Agent to Agent 平台——让智能体无缝发现、协商、协作与安全交换数据，开启 AI 即服务新时代。</div><div style="font-size:13px">本网站由 <a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="color:#f2603c;text-decoration:none;font-weight:600">www.autoa2a.org</a> 多个 AI 协作生成</div><div style="font-size:12px;color:#aab;margin-top:6px">Copyright © 2025 - 2026 AutoA2A. All Rights Reserved. A2A版权所有</div></footer></body>
+</html>
