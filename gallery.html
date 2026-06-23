@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>我的作品</title>
+<style>
+:root{
+    --primary:#2563eb;
+    --secondary:#10b981;
+    --bg:#fff;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+}
+body{
+    margin:0;
+    font-family:sans-serif;
+    background:#f9fafb;
+    color:#111827;
+    padding-top:4rem; /* 为自动注入的导航预留空间 */
+}
+main{
+    padding:16px;
+}
+h1{
+    margin:0 0 1rem;
+    font-size:1.5rem;
+    color:var(--primary);
+    text-align:center;
+}
+.grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:16px;
+    justify-content:center;
+}
+.card{
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:8px;
+    width:260px;
+    box-shadow:0 2px 4px rgba(0,0,0,0.1);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+}
+.preview{
+    background:#fff;
+    padding:8px;
+    text-align:center;
+}
+.preview svg{
+    width:100%;
+    height:auto;
+    max-height:180px;
+}
+.info{
+    padding:8px 12px;
+    flex:1;
+}
+.info .title{
+    font-weight:bold;
+    margin-bottom:4px;
+    word-break:break-all;
+}
+.actions{
+    display:flex;
+    gap:4px;
+    padding:8px 12px;
+    background:#f3f4f6;
+}
+button{
+    flex:1;
+    padding:6px 0;
+    font-size:0.9rem;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    color:#fff;
+}
+.load{
+    background:var(--primary);
+}
+.load:hover{background:#1d4ed8;}
+.del{
+    background:#dc2626;
+}
+.del:hover{background:#b91c1c;}
+.empty{
+    text-align:center;
+    color:var(--muted);
+    margin-top:2rem;
+}
+/* 新增导航链接样式 */
+.nav-links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    justify-content:center;
+    margin-bottom:16px;
+}
+.nav-btn{
+    display:inline-block;
+    padding:8px 12px;
+    background:var(--primary);
+    color:#fff;
+    text-decoration:none;
+    border-radius:6px;
+    font-size:0.9rem;
+    text-align:center;
+}
+.nav-btn:hover{
+    background:#1d4ed8;
+}
+@media(max-width:600px){
+    .card{width:100%;}
+}
+</style><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="我的作品"><meta property="og:description" content="列出已保存的 SVG 作品，支持预览、加载编辑、删除。"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="我的作品"><meta name="twitter:description" content="列出已保存的 SVG 作品，支持预览、加载编辑、删除。"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"我的作品","description":"列出已保存的 SVG 作品，支持预览、加载编辑、删除。","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style><meta name="description" content="列出已保存的 SVG 作品，支持预览、加载编辑、删除。"><meta name="keywords" content="SVG,绘图,编辑器,矢量图,在线工具,导出,模板,历程"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="我的作品"><meta property="og:description" content="列出已保存的 SVG 作品，支持预览、加载编辑、删除。"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="我的作品"><meta name="twitter:description" content="列出已保存的 SVG 作品，支持预览、加载编辑、删除。"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"我的作品","description":"列出已保存的 SVG 作品，支持预览、加载编辑、删除。","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script></head>
+<body>
+<main>
+<h1>我的作品</h1>
+<section class="nav-links">
+    <a href="templates.html" class="nav-btn">模板</a>
+    <a href="settings.html" class="nav-btn">设置</a>
+    <a href="export.html" class="nav-btn">导出</a>
+    <a href="history.html" class="nav-btn">历史记录</a>
+    <a href="help.html" class="nav-btn">帮助</a>
+    <a href="shortcuts.html" class="nav-btn">快捷键</a>
+</section>
+<section id="gallery" class="grid"></section>
+<p id="emptyMsg" class="empty hidden">暂无作品，快去 <a href="index.html" style="color:var(--primary);text-decoration:none;">编辑器</a> 创作吧！</p>
+</main>
+
+<script>
+/* 统一的本地存储结构
+   window.APP_DATA = {
+       gallery: [{id, name, svg, timestamp}]
+   }
+   若不存在则初始化为空数组。
+*/
+(function(){
+    const STORAGE_KEY = 'svgGallery';
+    function loadData(){
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+    }
+    function saveData(arr){
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+    }
+    function render(){
+        const list = loadData();
+        const gallery = document.getElementById('gallery');
+        const emptyMsg = document.getElementById('emptyMsg');
+        gallery.innerHTML = '';
+        if(list.length===0){
+            emptyMsg.classList.remove('hidden');
+            return;
+        }else{
+            emptyMsg.classList.add('hidden');
+        }
+        list.forEach(item=>{
+            const card = document.createElement('div');
+            card.className='card';
+            // preview
+            const previewDiv = document.createElement('div');
+            previewDiv.className='preview';
+            previewDiv.innerHTML = item.svg;
+            // info
+            const infoDiv = document.createElement('div');
+            infoDiv.className='info';
+            const title = document.createElement('div');
+            title.className='title';
+            title.textContent = item.name || '未命名';
+            const date = document.createElement('div');
+            date.style.fontSize='0.8rem';
+            date.style.color='var(--muted)';
+            const d = new Date(item.timestamp);
+            date.textContent = d.toLocaleString();
+            infoDiv.appendChild(title);
+            infoDiv.appendChild(date);
+            // actions
+            const actions = document.createElement('div');
+            actions.className='actions';
+            const loadBtn = document.createElement('button');
+            loadBtn.className='load';
+            loadBtn.textContent='加载';
+            loadBtn.onclick = ()=>{ loadToEditor(item.id); };
+            const delBtn = document.createElement('button');
+            delBtn.className='del';
+            delBtn.textContent='删除';
+            delBtn.onclick = ()=>{ deleteItem(item.id); };
+            actions.appendChild(loadBtn);
+            actions.appendChild(delBtn);
+            // assemble
+            card.appendChild(previewDiv);
+            card.appendChild(infoDiv);
+            card.appendChild(actions);
+            gallery.appendChild(card);
+        });
+    }
+    function deleteItem(id){
+        let data = loadData();
+        data = data.filter(i=>i.id!==id);
+        saveData(data);
+        render();
+    }
+    function loadToEditor(id){
+        const data = loadData();
+        const item = data.find(i=>i.id===id);
+        if(!item) return;
+        // 将 SVG 内容保存到 sessionStorage，供 index.html 读取
+        sessionStorage.setItem('svgToLoad', item.svg);
+        // 跳转编辑器
+        location.href='index.html';
+    }
+    // Expose for potential external use
+    window.APP_DATA = {load:loadData, save:saveData};
+    // 初始渲染
+    render();
+})();
+</script>
+<footer data-a2a="footer" style="margin-top:48px;padding:28px 16px;border-top:1px solid rgba(127,127,127,.16);text-align:center;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.9;color:#8a8f99;background:transparent"><a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:10px"><img src="https://agent.oagi.com.cn/uploads/202606/29ea3ed5413830b3.png" alt="AutoA2A" style="height:36px;vertical-align:middle;border:0"></a><div style="font-size:13.5px;color:#6b7280;max-width:760px;margin:0 auto 6px">✅️ <b>AutoA2A</b> · 智能体互连 Agent to Agent 平台——让智能体无缝发现、协商、协作与安全交换数据，开启 AI 即服务新时代。</div><div style="font-size:13px">本网站由 <a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="color:#f2603c;text-decoration:none;font-weight:600">www.autoa2a.org</a> 多个 AI 协作生成</div><div style="font-size:12px;color:#aab;margin-top:6px">Copyright © 2025 - 2026 AutoA2A. All Rights Reserved. A2A版权所有</div></footer></body>
+</html>
