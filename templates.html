@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>模板库</title>
+<style>
+:root{
+    --primary:#2563eb;
+    --secondary:#10b981;
+    --bg:#fff;
+    --muted:#6b7280;
+    --border:#e5e7eb;
+}
+body{margin:0;font-family:sans-serif;background:#f9fafb;color:#111827;}
+main{margin-top:3.5rem;padding:16px;}
+h1{margin-top:0;margin-bottom:1rem;font-size:1.5rem;color:var(--primary);text-align:center;}
+.templates-grid{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;}
+.template-card{
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:12px;
+    width:180px;
+    text-align:center;
+    box-shadow:0 2px 4px rgba(0,0,0,0.1);
+}
+.template-card .preview svg{width:100%;height:120px;display:block;margin-bottom:8px;}
+.template-card .name{margin:8px 0;font-weight:bold;color:#111827;}
+.template-card .use-btn{
+    display:inline-block;width:auto;padding:6px 12px;
+    background:var(--primary);color:#fff;border:none;
+    border-radius:6px;cursor:pointer;font-size:0.9rem;
+}
+.template-card .use-btn:hover{background:#1d4ed8;}
+/* navigation links */
+.nav-links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    justify-content:center;
+    margin-bottom:1.5rem;
+}
+.nav-links a{
+    display:inline-block;
+    padding:6px 12px;
+    background:var(--primary);
+    color:#fff;
+    text-decoration:none;
+    border-radius:6px;
+    font-size:0.9rem;
+}
+.nav-links a:hover{
+    background:#1d4ed8;
+}
+</style>
+<meta name="description" content="展示可直接使用的 SVG 模板，点击加载到编辑器。"><meta name="keywords" content="SVG,绘图,编辑器,矢量图,在线工具,导出,模板,历程"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="模板库"><meta property="og:description" content="展示可直接使用的 SVG 模板，点击加载到编辑器。"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="模板库"><meta name="twitter:description" content="展示可直接使用的 SVG 模板，点击加载到编辑器。"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"模板库","description":"展示可直接使用的 SVG 模板，点击加载到编辑器。","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
+<body>
+<main>
+<h1>模板库</h1>
+<div class="nav-links">
+    <a href="index.html">首页</a>
+    <a href="gallery.html">画廊</a>
+    <a href="settings.html">设置</a>
+    <a href="export.html">导出</a>
+    <a href="history.html">历史</a>
+    <a href="help.html">帮助</a>
+    <a href="shortcuts.html">快捷键</a>
+</div>
+<section id="templates-grid" class="templates-grid"></section>
+</main>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    const templates = [
+        {
+            name: '基本矩形',
+            svg: '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><rect x="20" y="20" width="160" height="160" fill="none" stroke="#2563eb" stroke-width="4"/></svg>'
+        },
+        {
+            name: '基本圆形',
+            svg: '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><circle cx="100" cy="100" r="80" fill="none" stroke="#2563eb" stroke-width="4"/></svg>'
+        },
+        {
+            name: '线条交叉',
+            svg: '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><line x1="20" y1="20" x2="180" y2="180" stroke="#10b981" stroke-width="4"/><line x1="180" y1="20" x2="20" y2="180" stroke="#10b981" stroke-width="4"/></svg>'
+        },
+        {
+            name: '三角形',
+            svg: '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><polygon points="100,20 180,180 20,180" fill="none" stroke="#2563eb" stroke-width="4"/></svg>'
+        },
+        {
+            name: '六角形',
+            svg: '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><polygon points="100,10 150,40 150,90 100,120 50,90 50,40" fill="none" stroke="#10b981" stroke-width="4"/></svg>'
+        },
+        {
+            name: '笑脸',
+            svg: '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><circle cx="100" cy="100" r="80" fill="none" stroke="#2563eb" stroke-width="4"/><circle cx="70" cy="75" r="8" fill="#2563eb"/><circle cx="130" cy="75" r="8" fill="#2563eb"/><path d="M 70 110 Q 100 150 130 110" stroke="#2563eb" stroke-width="6" fill="none" stroke-linecap="round"/></svg>'
+        }
+    ];
+
+    const grid = document.getElementById('templates-grid');
+    templates.forEach(t => {
+        const card = document.createElement('div');
+        card.className = 'template-card';
+        card.innerHTML = `
+            <div class="preview">${t.svg}</div>
+            <div class="name">${t.name}</div>
+            <button class="use-btn">使用此模板</button>
+        `;
+        const btn = card.querySelector('.use-btn');
+        btn.addEventListener('click', () => {
+            localStorage.setItem('templateSVG', t.svg);
+            window.location.href = 'index.html';
+        });
+        grid.appendChild(card);
+    });
+});
+</script>
+<footer data-a2a="footer" style="margin-top:48px;padding:28px 16px;border-top:1px solid rgba(127,127,127,.16);text-align:center;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.9;color:#8a8f99;background:transparent"><a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:10px"><img src="https://agent.oagi.com.cn/uploads/202606/29ea3ed5413830b3.png" alt="AutoA2A" style="height:36px;vertical-align:middle;border:0"></a><div style="font-size:13.5px;color:#6b7280;max-width:760px;margin:0 auto 6px">✅️ <b>AutoA2A</b> · 智能体互连 Agent to Agent 平台——让智能体无缝发现、协商、协作与安全交换数据，开启 AI 即服务新时代。</div><div style="font-size:13px">本网站由 <a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="color:#f2603c;text-decoration:none;font-weight:600">www.autoa2a.org</a> 多个 AI 协作生成</div><div style="font-size:12px;color:#aab;margin-top:6px">Copyright © 2025 - 2026 AutoA2A. All Rights Reserved. A2A版权所有</div></footer></body>
+</html>
