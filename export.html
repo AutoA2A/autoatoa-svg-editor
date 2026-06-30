@@ -1,143 +1,101 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>导出与分享</title>
-<style>
-:root{
-    --primary:#2563eb;
-    --secondary:#10b981;
-    --bg:#fff;
-    --muted:#6b7280;
-    --border:#e5e7eb;
-    --radius:8px;
-}
-body{
-    margin:0;
-    font-family:sans-serif;
-    background:#f9fafb;
-    color:#111827;
-    /* leave space for injected header */
-    padding-top:3.5rem;
-}
-.container{
-    max-width:960px;
-    margin:0 auto;
-    padding:16px;
-}
-h1{
-    margin-top:0;
-    margin-bottom:1.5rem;
-    font-size:1.75rem;
-    color:var(--primary);
-    text-align:center;
-}
-.card{
-    background:var(--bg);
-    border:1px solid var(--border);
-    border-radius:var(--radius);
-    padding:20px;
-    box-shadow:0 2px 4px rgba(0,0,0,0.1);
-    margin-bottom:24px;
-}
-.label{
-    display:block;
-    margin-top:0.8rem;
-    font-size:0.95rem;
-    color:#374151;
-}
-select, input[type=number], input[type=range]{
-    width:100%;
-    padding:0.5rem;
-    margin-top:0.3rem;
-    border:1px solid var(--border);
-    border-radius:4px;
-    font-size:0.9rem;
-    background:#fff;
-}
-.button-group{
-    display:flex;
-    gap:12px;
-    flex-wrap:wrap;
-    margin-top:1.2rem;
-}
-button{
-    flex:1 1 150px;
-    min-width:120px;
-    padding:0.6rem 1rem;
-    font-size:0.95rem;
-    background:var(--primary);
-    color:#fff;
-    border:none;
-    border-radius:var(--radius);
-    cursor:pointer;
-    transition:background .2s;
-}
-button:hover{
-    background:#1d4ed8;
-}
-button:active{
-    transform:scale(0.98);
-}
-button.secondary{
-    background:var(--secondary);
-}
-button.secondary:hover{
-    background:#0d9488;
-}
-#preview{
-    margin-top:1.5rem;
-    text-align:center;
-    color:var(--muted);
-    min-height:120px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-}
-#preview img, #preview svg{
-    max-width:100%;
-    height:auto;
-    border:1px dashed var(--border);
-    border-radius:4px;
-}
-#share-link{
-    word-break:break-all;
-    font-family:monospace;
-    background:#f3f4f6;
-    padding:0.4rem 0.6rem;
-    border-radius:4px;
-    display:inline-block;
-    margin-top:0.6rem;
-}
-.note{
-    font-size:0.85rem;
-    color:#6b7280;
-    margin-top:0.8rem;
-}
-@media (max-width:480px){
-    .button-group{
-        flex-direction:column;
-    }
-    button{
-        flex:1 1 auto;
-    }
-}
-</style>
-<meta name="description" content="选择导出格式（SVG/PNG/JPEG），设置分辨率，一键下载或生成分享链接。"><meta name="keywords" content="SVG,绘图,编辑器,矢量图,在线工具,导出,模板,历程"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="导出与分享"><meta property="og:description" content="选择导出格式（SVG/PNG/JPEG），设置分辨率，一键下载或生成分享链接。"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="导出与分享"><meta name="twitter:description" content="选择导出格式（SVG/PNG/JPEG），设置分辨率，一键下载或生成分享链接。"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"导出与分享","description":"选择导出格式（SVG/PNG/JPEG），设置分辨率，一键下载或生成分享链接。","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>导出与分享</title>
+    <style>
+        body {
+            font-family: 'Open Sans', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .nav-bar {
+            background-color: #3498db;
+            color: #fff;
+            padding: 16px;
+            text-align: center;
+        }
+        .nav-bar nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: space-around;
+        }
+        .nav-bar nav ul li {
+            margin-right: 16px;
+        }
+        .nav-bar nav a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .nav-bar nav a:hover {
+            color: #f1c40f;
+        }
+        .header {
+            background-color: #2ecc71;
+            color: #fff;
+            padding: 16px;
+            text-align: center;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 16px auto;
+            padding: 16px;
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+        }
+        @media (max-width: 768px) {
+            .nav-bar nav ul {
+                flex-direction: column;
+            }
+            .nav-bar nav ul li {
+                margin-right: 0;
+                margin-bottom: 8px;
+            }
+            .container {
+                margin: 8px;
+                padding: 8px;
+            }
+        }
+    </style>
+<meta name="description" content="修复高分辨率下导出图片模糊的问题"><meta name="keywords" content="SVG, 在线编辑器, 协作编辑, 代码优化, 模板库"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="导出与分享"><meta property="og:description" content="修复高分辨率下导出图片模糊的问题"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="导出与分享"><meta name="twitter:description" content="修复高分辨率下导出图片模糊的问题"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"导出与分享","description":"修复高分辨率下导出图片模糊的问题","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
 <body>
-<div class="container">
+    <div class="nav-bar">
+        <nav>
+            <ul>
+                <li><a href="index.html">首页</a></li>
+                <li><a href="templates.html">模板库</a></li>
+                <li><a href="gallery.html">我的作品</a></li>
+                <li><a href="settings.html">设置</a></li>
+                <li><a href="export.html">导出与分享</a></li>
+                <li><a href="history.html">历史记录</a></li>
+                <li><a href="optimize.html">SVG 优化</a></li>
+                <li><a href="help.html">使用帮助</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="header">
+        <h1>SVG 在线编辑器</h1>
+    </div>
+    <div class="container">
+        
+<divclass="container">
     <h1>导出与分享</h1>
 
-    <div class="card">
-        <div class="label">导出格式</div>
+    <div>
+        <label for="format-select">导出格式</label>
         <select id="format-select">
             <option value="svg">SVG (矢量)</option>
             <option value="png">PNG (位图)</option>
             <option value="jpeg">JPEG (位图)</option>
         </select>
 
-        <div class="label">分辨率倍数（仅对 PNG/JPEG 有效）</div>
+        <label for="scale-input">分辨率倍数（仅对 PNG/JPEG 有效）</label>
         <input type="number" id="scale-input" min="1" max="5" value="2" step="0.5">
         <p class="note">例如 2 表示导出图片为原始 SVG 尺寸的 2 倍。</p>
 
@@ -147,15 +105,102 @@ button.secondary:hover{
             <button id="copy-link-btn" class="secondary">复制链接</button>
         </div>
 
-        <div id="preview">
+        <div id="preview" style="margin-top:1.5rem; text-align:center; color:#555; min-height:120px; display:flex; align-items:center; justify-content:center;">
             <!-- 预览图片或 SVG 将在此显示 -->
         </div>
-        <div id="share-link" style="display:none;"></div>
+        <div id="share-link" style="display:none; margin-top:0.8rem; word-break:break-all; font-family:monospace; background:#f3f4f6; padding:0.4rem 0.6rem; border-radius:4px;"></div>
     </div>
 </div>
 
+<style>
+    /* 复用母版配色与字体 */
+    body {
+        font-family: 'Open Sans', Arial, sans-serif;
+        background:#f9f9f9;
+        color:#111;
+        margin:0;
+    }
+    .container {
+        max-width:960px;
+        margin:20px auto;
+        padding:16px;
+    }
+    h1 {
+        color:#2ecc71;
+        text-align:center;
+        margin-top:0;
+        margin-bottom:1.5rem;
+    }
+    label {
+        display:block;
+        margin-top:0.8rem;
+        font-size:0.95rem;
+        color:#333;
+    }
+    select, input[type=number] {
+        width:100%;
+        padding:0.5rem;
+        margin-top:0.3rem;
+        border:1px solid #3498db;
+        border-radius:4px;
+        background:#fff;
+        font-size:0.9rem;
+    }
+    .button-group {
+        display:flex;
+        gap:12px;
+        flex-wrap:wrap;
+        margin-top:1.2rem;
+    }
+    button {
+        flex:1 1 150px;
+        min-width:120px;
+        padding:0.6rem 1rem;
+        font-size:0.95rem;
+        background:#3498db;
+        color:#fff;
+        border:none;
+        border-radius:4px;
+        cursor:pointer;
+        transition:background .2s;
+    }
+    button:hover {
+        background:#2980b9;
+    }
+    button.secondary {
+        background:#2ecc71;
+    }
+    button.secondary:hover {
+        background:#27ae60;
+    }
+    #preview img, #preview svg {
+        max-width:100%;
+        height:auto;
+        border:1px dashed #3498db;
+        border-radius:4px;
+    }
+    #share-link {
+        word-break:break-all;
+        font-family:monospace;
+        background:#f3f4f6;
+        padding:0.4rem 0.6rem;
+        border-radius:4px;
+        display:inline-block;
+        margin-top:0.6rem;
+    }
+    .note {
+        font-size:0.85rem;
+        color:#666;
+        margin-top:0.8rem;
+    }
+    @media (max-width:480px){
+        .button-group{flex-direction:column;}
+        button{flex:1 1 auto;}
+    }
+</style>
+
 <script>
-document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', function () {
     const formatSelect = document.getElementById('format-select');
     const scaleInput   = document.getElementById('scale-input');
     const downloadBtn  = document.getElementById('download-btn');
@@ -164,154 +209,155 @@ document.addEventListener('DOMContentLoaded', function(){
     const previewArea  = document.getElementById('preview');
     const shareLinkDiv = document.getElementById('share-link');
 
-    // 从 localStorage 读取编辑器保存的 SVG（假设编辑器使用 key 'svgContent'）
-    function getStoredSVG(){
-        return localStorage.getItem('svgContent') || null;
+    // 从编辑器保存的 SVG 中读取（假设编辑器在 index.html 中保存到 localStorage）
+    function getSvgString() {
+        const saved = localStorage.getItem('svgContent');
+        if (saved) return saved;
+        // 默认示例 SVG，确保页面有内容可演示
+        return `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300">
+            <rect width="100%" height="100%" fill="#f9f9f9"/>
+            <circle cx="200" cy="150" r="80" fill="#3498db"/>
+            <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#fff" font-size="24">SVG 示例</text>
+        </svg>`;
     }
 
-    // 将 SVG 文本转换为 Blob
-    function svgToBlob(svgText, mime = 'image/svg+xml;charset=UTF-8'){
-        return new Blob([svgText], {type: mime});
-    }
-
-    // 将 SVG 渲染到 Canvas 并返回 Blob（png/jpeg）
-    function svgToImageBlob(svgText, format, scale){
-        return new Promise((resolve, reject)=>{
-            const img = new Image();
-            const svgBlob = new Blob([svgText], {type:'image/svg+xml;charset=UTF-8'});
-            const url = URL.createObjectURL(svgBlob);
-            img.onload = function(){
-                const canvas = document.createElement('canvas');
-                // 取 SVG 的宽高（若没有则默认 400x300）
-                const width  = 400;
-                const height = 300;
-                // 尝试从 SVG 中读取 width/height 属性
-                const parser = new DOMParser();
-                const doc    = new DOMParser();
-                const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
-                const root = svgDoc.documentElement;
-                const attrW = root.getAttribute('width');
-                const attrH = root.getAttribute('height');
-                if(attrW && !attrW.includes('%')){ const w = parseFloat(attrW); if(!isNaN(w)) width = w; }
-                if(attrH && !attrH.includes('%')){ const h = parseFloat(attrH); if(!isNaN(h)) height = h; }
-                canvas.width  = width  * scale;
-                canvas.height = height * scale;
-                const ctx = canvas.getContext('2d');
-                // 背景白色（若需要透明可改）
-                ctx.fillStyle = '#fff';
-                ctx.fillRect(0,0,canvas.width,canvas.height);
-                ctx.drawImage(img,0,0,canvas.width,canvas.height);
-                URL.revokeObjectURL(url);
-                const mime = format === 'png' ? 'image/png' : 'image/jpeg';
-                canvas.toBlob(function(blob){
-                    resolve(blob);
-                }, mime, 0.92); // JPEG quality
-            };
-            img.onerror = reject;
-            img.src = url;
-        });
-    }
-
-    // 下载 Blob
-    function downloadBlob(blob, filename){
-        const url = URL.createObjectURL(blob);
-        const a   = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        a.click();
-        URL.revokeObjectURL(url);
-    }
-
-    // 生成可分享的 data URL
-    function getDataURL(blob){
+    // 将 SVG 字符串转为 Blob URL（用于预览和绘制）
+    function svgToBlobUrl(svgStr) {
+        const blob = new Blob([svgStr], {type: 'image/svg+xml;charset=utf-8'});
         return URL.createObjectURL(blob);
     }
 
     // 更新预览
-    async function updatePreview(){
-        const svgText = getStoredSVG();
-        if(!svgText){
-            previewArea.innerHTML = '<div class="note">未检测到 SVG 内容，请在编辑器中创建或保存作品。</div>';
-            shareLinkDiv.style.display = 'none';
-            return;
+    function updatePreview() {
+        const svgStr = getSvgString();
+        const url = svgToBlobUrl(svgStr);
+        // 清除之前的对象 URL
+        if (previewArea.dataset.prevUrl) {
+            URL.revokeObjectURL(previewArea.dataset.prevUrl);
         }
-        const format = formatSelect.value;
-        const scale  = parseFloat(scaleInput.value) || 1;
-        try{
-            let blob;
-            if(format === 'svg'){
-                blob = svgToBlob(svgText);
-                // 预览 SVG 直接显示
-                const svgUrl = URL.createObjectURL(blob);
-                previewArea.innerHTML = `<object data="${svgUrl}" type="image/svg+xml" style="width:100%;height:200px;"></object>`;
-                // 为了不泄露 URL，稍后 revoke
-                setTimeout(()=>URL.revokeObjectURL(svgUrl), 5000);
-            }else{
-                blob = await svgToImageBlob(svgText, format, scale);
-                const imgUrl = URL.createObjectURL(blob);
-                previewArea.innerHTML = `<img src="${imgUrl}" alt="preview">`;
-                setTimeout(()=>URL.revokeObjectURL(imgUrl), 5000);
-            }
-            // 生成分享链接
-            const shareURL = getDataURL(blob);
-            shareLinkDiv.innerHTML = `分享链接：<a href="${shareURL}" target="_blank" rel="noopener">${shareURL}</a>`;
-            shareLinkDiv.style.display = 'block';
-            window._currentShareBlob = blob; // 保存供复制按钮使用
-            window._currentShareURL   = shareURL;
-        }catch(e){
-            console.error(e);
-            previewArea.innerHTML = '<div class="note">生成预览失败，请检查 SVG 内容。</div>';
-            shareLinkDiv.style.display = 'none';
+        previewArea.innerHTML = '';
+        if (formatSelect.value === 'svg') {
+            const img = document.createElement('img');
+            img.src = url;
+            img.style.maxWidth = '100%';
+            previewArea.appendChild(img);
+        } else {
+            // 对于位图预览，使用 1x 尺寸的 PNG
+            const img = document.createElement('img');
+            img.src = url;
+            img.onload = () => URL.revokeObjectURL(url);
+            img.style.maxWidth = '100%';
+            previewArea.appendChild(img);
         }
+        previewArea.dataset.prevUrl = url;
     }
 
-    // 事件绑定
     formatSelect.addEventListener('change', updatePreview);
-    scaleInput.addEventListener('change', updatePreview);
-    downloadBtn.addEventListener('click',()=>{
-        const svgText = getStoredSVG();
-        if(!svgText){ alert('没有可导出的 SVG 内容'); return; }
-        const format = formatSelect.value;
-        const scale  = parseFloat(scaleInput.value) || 1;
-        let blob, filename;
-        if(format === 'svg'){
-            blob = svgToBlob(svgText);
-            filename = 'export.svg';
-        }else{
-            svgToImageBlob(svgText, format, scale).then(b=>{
-                blob = b;
-                filename = `export.${format}`;
-                downloadBlob(blob, filename);
-            }).catch(err=>{ alert('导出失败：'+err); });
-            return; // 下载在 promise 内部完成
+    scaleInput.addEventListener('input', updatePreview);
+    updatePreview();
+
+    // 下载功能
+    downloadBtn.addEventListener('click', () => {
+        const svgStr = getSvgString();
+        const scale = parseFloat(scaleInput.value);
+        const blobUrl = svgToBlobUrl(svgStr);
+
+        if (formatSelect.value === 'svg') {
+            const blob = new Blob([svgStr], {type: 'image/svg+xml;charset=utf-8'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'export.svg';
+            a.click();
+            URL.revokeObjectURL(url);
+        } else {
+            const img = new Image();
+            img.src = blobUrl;
+            img.onload = () => {
+                // 计算画布尺寸
+                const width = img.width * scale;
+                const height = img.height * scale;
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                // 若需要透明背景，则清空；否则填白底
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(0, 0, width, height);
+                ctx.drawImage(img, 0, 0, width, height);
+                const mime = formatSelect.value === 'jpeg' ? 'image/jpeg' : 'image/png';
+                const quality = formatSelect.value === 'jpeg' ? 0.92 : undefined;
+                const dataUrl = canvas.toDataURL(mime, quality);
+                const a = document.createElement('a');
+                a.href = dataUrl;
+                a.download = `export.${formatSelect.value}`;
+                a.click();
+                // 释放对象 URL
+                URL.revokeObjectURL(blobUrl);
+            };
+            img.onerror = () => {
+                alert('SVG 加载失败，请检查内容。');
+                URL.revokeObjectURL(blobUrl);
+            };
         }
-        downloadBlob(blob, filename);
-    });
-    shareBtn.addEventListener('click',()=>{
-        updatePreview(); // 确保链接已生成
-    });
-    copyLinkBtn.addEventListener('click',()=>{
-        if(!window._currentShareURL){
-            alert('请先生成分享链接');
-            return;
-        }
-        navigator.clipboard.writeText(window._currentShareURL).then(()=>{
-            alert('链接已复制到剪贴板');
-        }).catch(err=>{
-            // 备用方案
-            const textarea = document.createElement('textarea');
-            textarea.value = window._currentShareURL;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-            alert('链接已复制到剪贴板');
-        });
     });
 
-    // 首次加载
-    updatePreview();
+    // 生成分享链接（Data URL）
+    shareBtn.addEventListener('click', () => {
+        const svgStr = getSvgString();
+        const scale = parseFloat(scaleInput.value);
+        const blobUrl = svgToBlobUrl(svgStr);
+
+        if (formatSelect.value === 'svg') {
+            const encoded = btoa(unescape(encodeURIComponent(svgStr)));
+            const shareUrl = `data:image/svg+xml;base64,${encoded}`;
+            shareLinkDiv.textContent = shareUrl;
+            shareLinkDiv.style.display = 'block';
+            URL.revokeObjectURL(blobUrl);
+        } else {
+            const img = new Image();
+            img.src = blobUrl;
+            img.onload = () => {
+                const width = img.width * scale;
+                const height = img.height * scale;
+                const canvas = document.createElement('canvas');
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.fillStyle = '#fff';
+                ctx.fillRect(0, 0, width, height);
+                ctx.drawImage(img, 0, 0, width, height);
+                const mime = formatSelect.value === 'jpeg' ? 'image/jpeg' : 'image/png';
+                const quality = formatSelect.value === 'jpeg' ? 0.92 : undefined;
+                const dataUrl = canvas.toDataURL(mime, quality);
+                shareLinkDiv.textContent = dataUrl;
+                shareLinkDiv.style.display = 'block';
+                URL.revokeObjectURL(blobUrl);
+            };
+            img.onerror = () => {
+                alert('SVG 加载失败。');
+                URL.revokeObjectURL(blobUrl);
+            };
+        }
+    });
+
+    // 复制链接到剪贴板
+    copyLinkBtn.addEventListener('click', () => {
+        const text = shareLinkDiv.textContent;
+        if (!text) {
+            alert('请先生成分享链接。');
+            return;
+        }
+        navigator.clipboard.writeText(text).then(() => {
+            alert('链接已复制到剪贴板');
+        }).catch(err => {
+            alert('复制失败：' + err);
+        });
+    });
 });
 </script>
+</div>
+
+    </div>
 <footer data-a2a="footer" style="margin-top:48px;padding:28px 16px;border-top:1px solid rgba(127,127,127,.16);text-align:center;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.9;color:#8a8f99;background:transparent"><a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:10px"><img src="https://agent.oagi.com.cn/uploads/202606/29ea3ed5413830b3.png" alt="AutoA2A" style="height:36px;vertical-align:middle;border:0"></a><div style="font-size:13.5px;color:#6b7280;max-width:760px;margin:0 auto 6px">✅️ <b>AutoA2A</b> · 智能体互连 Agent to Agent 平台——让智能体无缝发现、协商、协作与安全交换数据，开启 AI 即服务新时代。</div><div style="font-size:13px">本网站由 <a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="color:#f2603c;text-decoration:none;font-weight:600">www.autoa2a.org</a> 多个 AI 协作生成</div><div style="font-size:12px;color:#aab;margin-top:6px">Copyright © 2025 - 2026 AutoA2A. All Rights Reserved. A2A版权所有</div></footer></body>
 </html>
