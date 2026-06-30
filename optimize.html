@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG 优化</title>
+    <style>
+        body {
+            font-family: 'Open Sans', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .nav-bar {
+            background-color: #3498db;
+            color: #fff;
+            padding: 16px;
+            text-align: center;
+        }
+        .nav-bar nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: space-around;
+        }
+        .nav-bar nav ul li {
+            margin-right: 16px;
+        }
+        .nav-bar nav a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .nav-bar nav a:hover {
+            color: #f1c40f;
+        }
+        .header {
+            background-color: #2ecc71;
+            color: #fff;
+            padding: 16px;
+            text-align: center;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 16px auto;
+            padding: 16px;
+            background-color: #fff;
+            border-radius: 4px;
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+        }
+        @media (max-width: 768px) {
+            .nav-bar nav ul {
+                flex-direction: column;
+            }
+            .nav-bar nav ul li {
+                margin-right: 0;
+                margin-bottom: 8px;
+            }
+            .container {
+                margin: 8px;
+                padding: 8px;
+            }
+        }
+    </style>
+<meta name="description" content="提供代码压缩、清理冗余元素等功能"><meta name="keywords" content="SVG, 在线编辑器, 协作编辑, 代码优化, 模板库"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="SVG 优化"><meta property="og:description" content="提供代码压缩、清理冗余元素等功能"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="SVG 优化"><meta name="twitter:description" content="提供代码压缩、清理冗余元素等功能"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"SVG 优化","description":"提供代码压缩、清理冗余元素等功能","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
+<body>
+    <div class="nav-bar">
+        <nav>
+            <ul>
+                <li><a href="index.html">首页</a></li>
+                <li><a href="templates.html">模板库</a></li>
+                <li><a href="gallery.html">我的作品</a></li>
+                <li><a href="settings.html">设置</a></li>
+                <li><a href="export.html">导出与分享</a></li>
+                <li><a href="history.html">历史记录</a></li>
+                <li><a href="optimize.html">SVG 优化</a></li>
+                <li><a href="help.html">使用帮助</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="header">
+        <h1>SVG 在线编辑器</h1>
+    </div>
+    <div class="container">
+        
+<sectionclass="container" style="margin-bottom:16px;"><h2>SVG 优化</h2>
+<textarea id="svgInput" rows="10" placeholder="粘贴或输入 SVG 代码..." style="width:100%;box-sizing:border-box;"></textarea>
+<div style="margin-top:8px;">
+<button style="background-color:#2ecc71;color:#fff;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;" id="optimizeBtn">优化</button>
+<button style="background-color:#2ecc71;color:#fff;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;margin-left:8px;" id="copyBtn">复制结果</button>
+</div>
+<textarea id="svgOutput" rows="10" placeholder="优化后的 SVG 代码..." style="width:100%;box-sizing:border-box;margin-top:8px;" readonly></textarea>
+</section>
+<script>
+document.getElementById('optimizeBtn').addEventListener('click', () => {
+    const input = document.getElementById('svgInput').value;
+    if (!input.trim()) {
+        alert('请先输入 SVG 代码');
+        return;
+    }
+    let optimized = optimizeSVG(input);
+    document.getElementById('svgOutput').value = optimized;
+});
+document.getElementById('copyBtn').addEventListener('click', () => {
+    const output = document.getElementById('svgOutput');
+    output.select();
+    document.execCommand('copy');
+    alert('已复制到剪贴板');
+});
+function optimizeSVG(svg) {
+    // 1. 移除注释
+    let s = svg.replace(/<!--[\s\S]*?-->/g, '');
+    // 2. 移除标签之间的空白
+    s = s.replace(/>\s*</g, '><');
+    // 3. 移除标签内多余空白并保留单个空格
+    s = s.replace(/<\/?[\w:-]+[^>]*>/g, tag => {
+        return tag.replace(/\s+/g, ' ').trim();
+    });
+    // 4. 移除空属性
+    s = s.replace(/\s+\w+=""/g, '');
+    // 5. 移除末尾空格 перед闭合符号
+    s = s.replace(/\s+\/>/g, '/>');
+    // 6. 移除 XML 声明中的版本信息（如果不是必需）
+    s = s.replace(/<\?xml[^>]*\?>\s*/, '');
+    return s;
+}
+</script>
+
+    </div>
+<footer data-a2a="footer" style="margin-top:48px;padding:28px 16px;border-top:1px solid rgba(127,127,127,.16);text-align:center;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.9;color:#8a8f99;background:transparent"><a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:10px"><img src="https://agent.oagi.com.cn/uploads/202606/29ea3ed5413830b3.png" alt="AutoA2A" style="height:36px;vertical-align:middle;border:0"></a><div style="font-size:13.5px;color:#6b7280;max-width:760px;margin:0 auto 6px">✅️ <b>AutoA2A</b> · 智能体互连 Agent to Agent 平台——让智能体无缝发现、协商、协作与安全交换数据，开启 AI 即服务新时代。</div><div style="font-size:13px">本网站由 <a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="color:#f2603c;text-decoration:none;font-weight:600">www.autoa2a.org</a> 多个 AI 协作生成</div><div style="font-size:12px;color:#aab;margin-top:6px">Copyright © 2025 - 2026 AutoA2A. All Rights Reserved. A2A版权所有</div></footer></body>
+</html>
