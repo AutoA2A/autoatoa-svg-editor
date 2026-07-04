@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>导入/导出</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+    --primary:#2563eb;
+    --secondary:#10b981;
+    --bg:#fff;
+    --muted:#f9fafb;
+    --text:#1f2937;
+    --radius:8px;
+    --btn-radius:6px;
+    --unit:16px;
+}
+*, *::before, *::after{box-sizing:border-box;}
+html{font-size:100%;}
+body{
+    margin:0;
+    font-family:Inter,system-ui,sans-serif;
+    background:#f9fafb;
+    color:var(--text);
+    line-height:1.5;
+}
+header{
+    background:var(--bg);
+    box-shadow:0 1px 3px rgba(0,0,0,.08);
+    padding:calc(var(--unit)*0.5) 0;
+}
+nav{
+    display:flex;
+    gap:calc(var(--unit)*0.5);
+    overflow-x:auto;
+    padding:0 calc(var(--unit)*0.5);
+    scrollbar-width:none;
+}
+nav::-webkit-scrollbar{display:none;}
+nav a{
+    font-weight:500;
+    color:var(--text);
+    text-decoration:none;
+    background:var(--muted);
+    padding:calc(var(--unit)*0.25) calc(var(--unit)*0.5);
+    border-radius:var(--btn-radius);
+    white-space:nowrap;
+    transition:background .2s, color .2s;
+}
+nav a:hover{
+    background:#e0e7ff;
+    color:var(--primary);
+}
+main{
+    max-width:1200px;
+    margin:0 auto;
+    padding:calc(var(--unit)*2);
+}
+</style>
+<meta name="description" content="允许用户上传本地 SVG 文件进行编辑；编辑完成后可导出为 SVG 或 PNG，提供直接下载链接；支持粘贴 SVG 代码导入。"><meta name="keywords" content="SVG,编辑器,在线绘图,矢量图形,导出"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="导入/导出"><meta property="og:description" content="允许用户上传本地 SVG 文件进行编辑；编辑完成后可导出为 SVG 或 PNG，提供直接下载链接；支持粘贴 SVG 代码导入。"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="导入/导出"><meta name="twitter:description" content="允许用户上传本地 SVG 文件进行编辑；编辑完成后可导出为 SVG 或 PNG，提供直接下载链接；支持粘贴 SVG 代码导入。"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"导入/导出","description":"允许用户上传本地 SVG 文件进行编辑；编辑完成后可导出为 SVG 或 PNG，提供直接下载链接；支持粘贴 SVG 代码导入。","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
+<body>
+<header>
+<nav>
+<a href="index.html">首页</a>
+<a href="template.html">模板库</a>
+<a href="import-export.html">导入/导出</a>
+<a href="settings.html">编辑器设置</a>
+<a href="history.html">编辑历史</a>
+</nav>
+</header>
+<main>
+
+<section class='section'>
+  <h2 class='section-title'>导入 SVG</h2>
+  <div class='section-content'>
+    <article class='card'>
+      <label for='svgFileInput' style='display:flex;align-items:center;gap:0.5rem;'>
+        选择本地 SVG 文件：
+        <input type='file' id='svgFileInput' accept='image/svg+xml,.svg' style='flex:1;'>
+      </label>
+      <button class='btn btn-primary' id='loadFileBtn'>加载文件</button>
+    </article>
+    <article class='card' style='margin-top:1rem;'>
+      <textarea id='svgCode' placeholder='粘贴 SVG 代码这里...' rows='6' style='width:100%;font-family:monospace;'></textarea>
+      <button class='btn btn-primary' id='loadCodeBtn'>加载代码</button>
+    </article>
+  </div>
+</section>
+
+<section class='section'>
+  <h2 class='section-title'>预览</h2>
+  <div class='section-content'>
+    <div id='svgPreview' style='width:100%;height:400px;border:1px solid var(--muted);background:#fff;display:flex;align-items:center;justify-content:center;color:#666;'>未加载 SVG</div>
+  </div>
+</section>
+
+<section class='section'>
+  <h2 class='section-title'>导出</h2>
+  <div class='section-content'>
+    <button class='btn btn-primary' id='exportSvgBtn'>导出为 SVG</button>
+    <button class='btn btn-primary' id='exportPngBtn'>导出为 PNG</button>
+    <a id='downloadLink' style='display:none;' download></a>
+  </div>
+</section>
+
+<script>
+  let currentSVG = '';
+
+  const previewDiv = document.getElementById('svgPreview');
+  const svgCodeTa = document.getElementById('svgCode');
+  const loadFileBtn = document.getElementById('loadFileBtn');
+  const svgFileInput = document.getElementById('svgFileInput');
+  const loadCodeBtn = document.getElementById('loadCodeBtn');
+  const exportSvgBtn = document.getElementById('exportSvgBtn');
+  const exportPngBtn = document.getElementById('exportPngBtn');
+  const downloadLink = document.getElementById('downloadLink');
+
+  function renderPreview(svgString) {
+    currentSVG = svgString.trim();
+    previewDiv.innerHTML = currentSVG;
+    const svgEl = previewDiv.querySelector('svg');
+    if (svgEl) {
+      if (!svgEl.hasAttribute('width')) svgEl.setAttribute('width', '100%');
+      if (!svgEl.hasAttribute('height')) svgEl.setAttribute('height', '100%');
+    }
+  }
+
+  loadFileBtn.addEventListener('click', () => svgFileInput.click());
+  svgFileInput.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      renderPreview(ev.target.result);
+      svgFileInput.value = '';
+    };
+    reader.readAsText(file);
+  });
+
+  loadCodeBtn.addEventListener('click', () => {
+    const code = svgCodeTa.value.trim();
+    if (code) renderPreview(code);
+  });
+
+  exportSvgBtn.addEventListener('click', () => {
+    if (!currentSVG) return;
+    const blob = new Blob([currentSVG], {type: 'image/svg+xml;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    downloadLink.href = url;
+    downloadLink.download = 'export.svg';
+    downloadLink.click();
+    URL.revokeObjectURL(url);
+  });
+
+  exportPngBtn.addEventListener('click', () => {
+    if (!currentSVG) return;
+    const svgEl = previewDiv.querySelector('svg');
+    if (!svgEl) return;
+    const width = svgEl.width.baseVal.value || svgEl.getAttribute('width') || 400;
+    const height = svgEl.height.baseVal.value || svgEl.getAttribute('height') || 400;
+    const blob = new Blob([currentSVG], {type: 'image/svg+xml;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+      const pngUrl = canvas.toDataURL('image/png');
+      downloadLink.href = pngUrl;
+      downloadLink.download = 'export.png';
+      downloadLink.click();
+      URL.revokeObjectURL(url);
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      alert('SVG 渲染失败');
+    };
+    img.src = url;
+  });
+</script>
+
+</main>
+<footer data-a2a="footer" style="margin-top:48px;padding:28px 16px;border-top:1px solid rgba(127,127,127,.16);text-align:center;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.9;color:#8a8f99;background:transparent"><a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:10px"><img src="https://agent.oagi.com.cn/uploads/202606/29ea3ed5413830b3.png" alt="AutoA2A" style="height:36px;vertical-align:middle;border:0"></a><div style="font-size:13.5px;color:#6b7280;max-width:760px;margin:0 auto 6px">✅️ <b>AutoA2A</b> · 智能体互连 Agent to Agent 平台——让智能体无缝发现、协商、协作与安全交换数据，开启 AI 即服务新时代。</div><div style="font-size:13px">本网站由 <a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="color:#f2603c;text-decoration:none;font-weight:600">www.autoa2a.org</a> 多个 AI 协作生成</div><div style="font-size:12px;color:#aab;margin-top:6px">Copyright © 2025 - 2026 AutoA2A. All Rights Reserved. A2A版权所有</div></footer></body>
+</html>
