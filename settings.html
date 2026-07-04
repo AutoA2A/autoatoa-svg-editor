@@ -1,284 +1,174 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>设置</title>
-    <style>
-        body {
-            font-family: 'Open Sans', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-        }
-        .nav-bar {
-            background-color: #3498db;
-            color: #fff;
-            padding: 16px;
-            text-align: center;
-        }
-        .nav-bar nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: space-around;
-        }
-        .nav-bar nav ul li {
-            margin-right: 16px;
-        }
-        .nav-bar nav a {
-            color: #fff;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-        .nav-bar nav a:hover {
-            color: #f1c40f;
-        }
-        .header {
-            background-color: #2ecc71;
-            color: #fff;
-            padding: 16px;
-            text-align: center;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 16px auto;
-            padding: 16px;
-            background-color: #fff;
-            border-radius: 4px;
-            box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
-        }
-        @media (max-width: 768px) {
-            .nav-bar nav ul {
-                flex-direction: column;
-            }
-            .nav-bar nav ul li {
-                margin-right: 0;
-                margin-bottom: 8px;
-            }
-            .container {
-                margin: 8px;
-                padding: 8px;
-            }
-        }
-    </style>
-<meta name="description" content="调整布局，使其更直观易用"><meta name="keywords" content="SVG, 在线编辑器, 协作编辑, 代码优化, 模板库"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="设置"><meta property="og:description" content="调整布局，使其更直观易用"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="设置"><meta name="twitter:description" content="调整布局，使其更直观易用"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"设置","description":"调整布局，使其更直观易用","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
+<meta charset="utf-8">
+<title>编辑器设置</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+    --primary:#2563eb;
+    --secondary:#10b981;
+    --bg:#fff;
+    --muted:#f9fafb;
+    --text:#1f2937;
+    --radius:8px;
+    --btn-radius:6px;
+    --unit:16px;
+}
+*, *::before, *::after{box-sizing:border-box;}
+html{font-size:100%;}
+body{
+    margin:0;
+    font-family:Inter,system-ui,sans-serif;
+    background:#f9fafb;
+    color:var(--text);
+    line-height:1.5;
+}
+header{
+    background:var(--bg);
+    box-shadow:0 1px 3px rgba(0,0,0,.08);
+    padding:calc(var(--unit)*0.5) 0;
+}
+nav{
+    display:flex;
+    gap:calc(var(--unit)*0.5);
+    overflow-x:auto;
+    padding:0 calc(var(--unit)*0.5);
+    scrollbar-width:none;
+}
+nav::-webkit-scrollbar{display:none;}
+nav a{
+    font-weight:500;
+    color:var(--text);
+    text-decoration:none;
+    background:var(--muted);
+    padding:calc(var(--unit)*0.25) calc(var(--unit)*0.5);
+    border-radius:var(--btn-radius);
+    white-space:nowrap;
+    transition:background .2s, color .2s;
+}
+nav a:hover{
+    background:#e0e7ff;
+    color:var(--primary);
+}
+main{
+    max-width:1200px;
+    margin:0 auto;
+    padding:calc(var(--unit)*2);
+}
+</style>
+<meta name="description" content="提供画布尺寸自定义、网格显示开关、背景色选择、快捷键配置等偏好设置；修改后立即在编辑器中生效，且设置会保存在 localStorage。"><meta name="keywords" content="SVG,编辑器,在线绘图,矢量图形,导出"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="编辑器设置"><meta property="og:description" content="提供画布尺寸自定义、网格显示开关、背景色选择、快捷键配置等偏好设置；修改后立即在编辑器中生效，且设置会保存在 localStorage。"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="编辑器设置"><meta name="twitter:description" content="提供画布尺寸自定义、网格显示开关、背景色选择、快捷键配置等偏好设置；修改后立即在编辑器中生效，且设置会保存在 localStorage。"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"编辑器设置","description":"提供画布尺寸自定义、网格显示开关、背景色选择、快捷键配置等偏好设置；修改后立即在编辑器中生效，且设置会保存在 localStorage。","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
 <body>
-    <div class="nav-bar">
-        <nav>
-            <ul>
-                <li><a href="index.html">首页</a></li>
-                <li><a href="templates.html">模板库</a></li>
-                <li><a href="gallery.html">我的作品</a></li>
-                <li><a href="settings.html">设置</a></li>
-                <li><a href="export.html">导出与分享</a></li>
-                <li><a href="history.html">历史记录</a></li>
-                <li><a href="optimize.html">SVG 优化</a></li>
-                <li><a href="help.html">使用帮助</a></li>
-            </ul>
-        </nav>
-    </div>
-    <div class="header">
-        <h1>SVG 在线编辑器</h1>
-    </div>
-    <div class="container">
-        
-<sectionclass="container" style="margin-bottom:16px;">
-  <h2>设置</h2>
+<header>
+<nav>
+<a href="index.html">首页</a>
+<a href="template.html">模板库</a>
+<a href="import-export.html">导入/导出</a>
+<a href="settings.html">编辑器设置</a>
+<a href="history.html">编辑历史</a>
+</nav>
+</header>
+<main>
 
-  <section style="background:#fff;padding:16px;border-radius:4px;margin-bottom:16px;box-shadow:0 2px 4px rgba(0,0,0,0.1);">
-    <h3 style="margin-top:0;color:#3498db;">画布背景</h3>
-    <label class="label" style="display:block;margin-top:0.6rem;font-size:0.9rem;color:#333;" for="bg-color">背景颜色</label>
-    <input type="color" id="bg-color" value="#ffffff" style="width:100%;height:2.4rem;border:none;background:none;padding:0;">
-    <div id="bg-preview" style="width:100%;height:80px;border:1px dashed rgba(0,0,0,0.1;border-radius:4px;background:#ffffff;display:flex;align-items:center;justify-content:center;color:#666;font-size:0.9rem;margin-top:0.5rem;">
-      预览
-    </div>
-  </section>
-
-  <section style="background:#fff;padding:16px;border-radius:4px;margin-bottom:16px;box-shadow:0 2px 4px rgba(0,0,0,0.1);">
-    <h3 style="margin-top:0;color:#3498db;">网格</h3>
-    <label class="label" style="display:block;margin-top:0.6rem;font-size:0.9rem;color:#333;" for="grid-toggle">显示网格</label>
-    <input type="checkbox" id="grid-toggle">
-    <label class="label" style="display:block;margin-top:0.4rem;font-size:0.9rem;color:#333;" for="grid-size">网格大小（像素）</label>
-    <input type="range" id="grid-size" min="5" max="50" value="20" style="width:100%;margin-top:0.2rem;">
-    <div style="display:flex;align-items:center;gap:8px;margin-top:0.4rem;">
-      <span id="grid-size-value">20</span> px
-    </div>
-    <div id="grid-preview" style="width:100%;height:120px;border:1px dashed rgba(0,0,0,0.1);border-radius:4px;background:#fafafa;position:relative;margin-top:0.5rem;"></div>
-  </section>
-
-  <section style="background:#fff;padding:16px;border-radius:4px;margin-bottom:16px;box-shadow:0 2px 4px rgba(0,0,0,0.1);">
-    <h3 style="margin-top:0;color:#3498db;">默认笔触</h3>
-    <label class="label" style="display:block;margin-top:0.6rem;font-size:0.9rem;color:#333;" for="stroke-color">笔触颜色</label>
-    <input type="color" id="stroke-color" value="#3498db" style="width:100%;height:2.4rem;border:none;background:none;padding:0;">
-    <label class="label" style="display:block;margin-top:0.4rem;font-size:0.9rem;color:#333;" for="stroke-width">笔触宽度</label>
-    <input type="range" id="stroke-width" min="1" max="10" value="2" style="width:100%;margin-top:0.2rem;">
-    <div style="display:flex;align-items:center;gap:8px;margin-top:0.4rem;">
-      <span id="stroke-width-value">2</span> px
-    </div>
-    <div id="stroke-preview" style="width:100%;height:60px;border:1px dashed rgba(0,0,0,0.1);border-radius:4px;background:#fafafa;display:flex;align-items:center;justify-content:center;margin-top:0.5rem;">
-      <svg width="80%" height="40%" viewBox="0 0 100 20">
-        <line x1="0" y1="10" x2="100" y2="10" stroke="#3498db" stroke-width="2"/>
-      </svg>
-    </div>
-  </section>
-
-  <section style="background:#fff;padding:16px;border-radius:4px;margin-bottom:16px;box-shadow:0 2px 4px rgba(0,0,0,0.1);">
-    <h3 style="margin-top:0;color:#3498db;">颜色主题</h3>
-    <label class="label" style="display:block;margin-top:0.6rem;font-size:0.9rem;color:#333;" for="theme-select">选择主题</label>
-    <select id="theme-select" style="width:100%;padding:0.4rem;border:1px solid #ddd;border-radius:4px;background:#fff;">
-      <option value="default">默认</option>
-      <option value="dark">暗色</option>
-      <option value="sepia">塞皮亚</option>
-    </select>
-    <div id="theme-preview" style="width:100%;height:60px;border:1px dashed rgba(0,0,0,0.1);border-radius:4px;background:#fafafa;display:flex;align-items:center;justify-content:center;color:#666;font-size:0.9rem;margin-top:0.5rem;">
-      主题预览
-    </div>
-  </section>
-
-  <button id="reset-defaults" style="width:100%;padding:0.5rem;font-size:0.9rem;background:#3498db;color:#fff;border:none;border-radius:6px;cursor:pointer;margin-top:1rem;">
-    恢复默认设置
-  </button>
-</section>
-
+<section class='section' style='margin-bottom:calc(var(--unit)*2);'><h2 class='section-title' style='margin:0 0 calc(var(--unit)*0.5) 0;font-size:1.25rem;color:var(--text);'>画布尺寸</h2><div class='section-content' style='color:var(--text);line-height:1.6;'><label style='display:block;margin-bottom:calc(var(--unit)*0.5);'>宽度 (px): <input type='number' id='canvas-width' min='100' value='800' style='width:80px;padding:calc(var(--unit)*0.25);'></label><label style='display:block;margin-bottom:calc(var(--unit)*0.5);'>高度 (px): <input type='number' id='canvas-height' min='100' value='600' style='width:80px;padding:calc(var(--unit)*0.25);'></label></div></section>
+<section class='section' style='margin-bottom:calc(var(--unit)*2);'><h2 class='section-title' style='margin:0 0 calc(var(--unit)*0.5) 0;font-size:1.25rem;color:var(--text);'>网格显示</h2><div class='section-content' style='color:var(--text);line-height:1.6;'><label style='display:block;'><input type='checkbox' id='grid-toggle'> 显示网格</label></div></section>
+<section class='section' style='margin-bottom:calc(var(--unit)*2);'><h2 class='section-title' style='margin:0 0 calc(var(--unit)*0.5) 0;font-size:1.25rem;color:var(--text);'>背景色</h2><div class='section-content' style='color:var(--text);line-height:1.6;'><label style='display:block;'>背景色: <input type='color' id='bg-color' value='#ffffff' style='width:40px;height:24px;padding:0;'></label></div></section>
+<section class='section' style='margin-bottom:calc(var(--unit)*2);'><h2 class='section-title' style='margin:0 0 calc(var(--unit)*0.5) 0;font-size:1.25rem;color:var(--text);'>快捷键配置</h2><div class='section-content' style='color:var(--text);line-height:1.6;'><table class='table' style='width:100%;border-collapse:collapse;margin-top:calc(var(--unit)*1);'><thead><tr style='background:var(--muted);'><th style='padding:calc(var(--unit)*0.5) calc(var(--unit)*0.75);text-align:left;font-weight:600;color:var(--text);'>操作</th><th style='padding:calc(var(--unit)*0.5) calc(var(--unit)*0.75);text-align:left;font-weight:600;color:var(--text);'>快捷键</th></tr></thead><tbody><tr><td style='padding:calc(var(--unit)*0.5) calc(var(--unit)*0.75);border-top:1px solid var(--muted);color:var(--text);'>撤销</td><td style='padding:calc(var(--unit)*0.5) calc(var(--unit)*0.75);border-top:1px solid var(--muted);color:var(--text);'><input type='text' id='shortcut-undo' placeholder='例如 Ctrl+Z' style='width:100%;padding:calc(var(--unit)*0.25);'></td></tr><tr><td style='padding:calc(var(--unit)*0.5) calc(var(--unit)*0.75);border-top:1px solid var(--muted);color:var(--text);'>重做</td><td style='padding:calc(var(--unit)*0.5) calc(var(--unit)*0.75);border-top:1px solid var(--muted);color:var(--text);'><input type='text' id='shortcut-redo' placeholder='例如 Ctrl+Y' style='width:100%;padding:calc(var(--unit)*0.25);'></td></tr><tr><td style='padding:calc(var(--unit)*0.5) calc(var(--unit)*0.75);border-top:1px solid var(--muted);color:var(--text);'>选择工具</td><td style='padding:calc(var(--unit)*0.5) calc(var(--unit)*0.75);border-top:1px solid var(--muted);color:var(--text);'><input type='text' id='shortcut-select' placeholder='例如 V' style='width:100%;padding:calc(var(--unit)*0.25);'></td></tr><tr><td style='padding:calc(var(--unit)*0.5) calc(var(--unit)*0.75);border-top:1px solid var(--muted);color:var(--text);'>笔工具</td><td style='padding:calc(var(--unit)*0.5) calc(var(--unit)*0.75);border-top:1px solid var(--muted);color:var(--text);'><input type='text' id='shortcut-pen' placeholder='例如 P' style='width:100%;padding:calc(var(--unit)*0.25);'></td></tr><tr><td style='padding:calc(var(--unit)*0.5) calc(var(--unit)*0.75);border-top:1px solid var(--muted);color:var(--text);'>直线工具</td><td style='padding:calc(var(--unit)*0.5) calc(var(--unit)*0.75);border-top:1px solid var(--muted);color:var(--text);'><input type='text' id='shortcut-line' placeholder='例如 L' style='width:100%;padding:calc(var(--unit)*0.25);'></td></tr><tr><td style='padding:calc(var(--unit)*0.5) calc(var(--unit)*0.75);border-top:1px solid var(--muted);color:var(--text);'>矩形工具</td><td style='padding:calc(var(--unit)*0.5) calc(var(--unit)*0.75);border-top:1px solid var(--muted);color:var(--text);'><input type='text' id='shortcut-rect' placeholder='例如 R' style='width:100%;padding:calc(var(--unit)*0.25);'></td></tr><tr><td style='padding:calc(var(--unit)*0.5) calc(var(--unit)*0.75);border-top:1px solid var(--muted);color:var(--text);'>圆形工具</td><td style='padding:calc(var(--unit)*0.5) calc(var(--unit)*0.75);border-top:1px solid var(--muted);color:var(--text);'><input type='text' id='shortcut-circle' placeholder='例如 C' style='width:100%;padding:calc(var(--unit)*0.25);'></td></tr><tr><td style='padding:calc(var(--unit)*0.5) calc(var(--unit)*0.75);border-top:1px solid var(--muted);color:var(--text);'>文字工具</td><td style='padding:calc(var(--unit)*0.5) calc(var(--unit)*0.75);border-top:1px solid var(--muted);color:var(--text);'><input type='text' id='shortcut-text' placeholder='例如 T' style='width:100%;padding:calc(var(--unit)*0.25);'></td></tr></tbody></table></div></section>
+<button class='btn btn-primary' style='background:var(--primary);color:#fff;border:none;padding:calc(var(--unit)*0.25) calc(var(--unit)*0.5);border-radius:var(--btn-radius);cursor:pointer;font-weight:500;' id='reset-defaults'>重置为默认设置</button>
 <script>
-(() => {
-  const STORAGE = {
-    bg: 'svgEditorBgColor',
-    gridEnabled: 'svgEditorGridEnabled',
-    gridSize: 'svgEditorGridSize',
-    strokeColor: 'svgEditorStrokeColor',
-    strokeWidth: 'svgEditorStrokeWidth',
-    theme: 'svgEditorTheme'
-  };
-
-  const $ = id => document.getElementById(id);
-
-  // UI elements
-  const bgColorInput = $('#bg-color');
-  const bgPreview = $('#bg-preview');
-  const gridToggle = $('#grid-toggle');
-  const gridSizeInput = $('#grid-size');
-  const gridSizeValue = $('#grid-size-value');
-  const gridPreview = $('#grid-preview');
-  const strokeColorInput = $('#stroke-color');
-  const strokeWidthInput = $('#stroke-width');
-  const strokeWidthValue = $('#stroke-width-value');
-  const strokePreview = $('#stroke-preview');
-  const themeSelect = $('#theme-select');
-  const themePreview = $('#theme-preview');
-  const resetBtn = $('#reset-defaults');
-
-  // Load from storage
-  function load() {
-    bgColorInput.value = localStorage.getItem(STORAGE.bg) || '#ffffff';
-    updateBgPreview();
-
-    const gridEnabled = localStorage.getItem(STORAGE.gridEnabled) === 'true';
-    gridToggle.checked = gridEnabled;
-    updateGridPreview();
-
-    const gridSize = parseInt(localStorage.getItem(STORAGE.gridSize)) || 20;
-    gridSizeInput.value = gridSize;
-    gridSizeValue.textContent = gridSize;
-
-    strokeColorInput.value = localStorage.getItem(STORAGE.strokeColor) || '#3498db';
-    updateStrokePreview();
-
-    const strokeWidth = parseInt(localStorage.getItem(STORAGE.strokeWidth)) || 2;
-    strokeWidthInput.value = strokeWidth;
-    strokeWidthValue.textContent = strokeWidth;
-
-    themeSelect.value = localStorage.getItem(STORAGE.theme) || 'default';
-    updateThemePreview();
-  }
-
-  function save() {
-    localStorage.setItem(STORAGE.bg, bgColorInput.value);
-    localStorage.setItem(STORAGE.gridEnabled, gridToggle.checked);
-    localStorage.setItem(STORAGE.gridSize, gridSizeInput.value);
-    localStorage.setItem(STORAGE.strokeColor, strokeColorInput.value);
-    localStorage.setItem(STORAGE.strokeWidth, strokeWidthInput.value);
-    localStorage.setItem(STORAGE.theme, themeSelect.value);
-    // Notify other pages (e.g., index.html) via storage event
-    window.dispatchEvent(new Event('storage'));
-  }
-
-  // Preview updates
-  function updateBgPreview() {
-    bgPreview.style.backgroundColor = bgColorInput.value;
-  }
-  function updateGridPreview() {
-    if (gridToggle.checked) {
-      const size = gridSizeInput.value;
-      gridPreview.style.backgroundSize = `${size}px ${size}px`;
-      gridPreview.style.backgroundImage = `
-        repeating-linear-gradient(
-          to right,
-          rgba(0,0,0,0.1) 0,
-          rgba(0,0,0,0.1) 1px,
-          transparent 1px,
-          transparent ${size}px
-        ),
-        repeating-linear-gradient(
-          to bottom,
-          rgba(0,0,0,0.1) 0,
-          rgba(0,0,0,0.1) 1px,
-          transparent 1px,
-          transparent ${size}px
-        )
-      `;
-    } else {
-      gridPreview.style.backgroundImage = 'none';
-    }
-  }
-  function updateStrokePreview() {
-    const color = strokeColorInput.value;
-    const width = strokeWidthInput.value;
-    const svg = strokePreview.querySelector('svg');
-    if (svg) {
-      svg.querySelector('line').setAttribute('stroke', color);
-      svg.querySelector('line').setAttribute('stroke-width', width);
-    }
-  }
-  function updateThemePreview() {
-    const theme = themeSelect.value;
-    let text = '';
-    switch (theme) {
-      case 'default': text = '默认主题'; break;
-      case 'dark': text = '暗色主题'; break;
-      case 'sepia': text = '塞皮亚主题'; break;
-    }
-    themePreview.textContent = text;
-  }
-
-  // Event listeners
-  bgColorInput.addEventListener('input', () => { updateBgPreview(); save(); });
-  gridToggle.addEventListener('change', () => { updateGridPreview(); save(); });
-  gridSizeInput.addEventListener('input', () => { gridSizeValue.textContent = gridSizeInput.value; updateGridPreview(); save(); });
-  strokeColorInput.addEventListener('input', () => { updateStrokePreview(); save(); });
-  strokeWidthInput.addEventListener('input', () => { strokeWidthValue.textContent = strokeWidthInput.value; updateStrokePreview(); save(); });
-  themeSelect.addEventListener('change', () => { updateThemePreview(); save(); });
-
-  resetBtn.addEventListener('click', () => {
-    if (confirm('确定要恢复所有设置为默认值吗？')) {
-      localStorage.removeItem(STORAGE.bg);
-      localStorage.removeItem(STORAGE.gridEnabled);
-      localStorage.removeItem(STORAGE.gridSize);
-      localStorage.removeItem(STORAGE.strokeColor);
-      localStorage.removeItem(STORAGE.strokeWidth);
-      localStorage.removeItem(STORAGE.theme);
-      load();
-    }
-  });
-
-  // Initialize
-  load();
+(function(){
+const STORAGE_KEY = 'svgEditorSettings';
+const DEFAULTS = {
+canvasWidth: 800,
+canvasHeight: 600,
+showGrid: true,
+bgColor: '#ffffff',
+shortcuts: {
+undo: 'Ctrl+Z',
+redo: 'Ctrl+Y',
+select: 'V',
+pen: 'P',
+line: 'L',
+rect: 'R',
+circle: 'C',
+text: 'T'
+}
+};
+function loadSettings(){
+let raw = localStorage.getItem(STORAGE_KEY);
+let settings = raw ? JSON.parse(raw) : DEFAULTS;
+// populate UI
+document.getElementById('canvas-width').value = settings.canvasWidth || DEFAULTS.canvasWidth;
+document.getElementById('canvas-height').value = settings.canvasHeight || DEFAULTS.canvasHeight;
+document.getElementById('grid-toggle').checked = settings.showGrid !== undefined ? settings.showGrid : DEFAULTS.showGrid;
+document.getElementById('bg-color').value = settings.bgColor || DEFAULTS.bgColor;
+const sc = settings.shortcuts || DEFAULTS.shortcuts;
+document.getElementById('shortcut-undo').value = sc.undo || DEFAULTS.shortcuts.undo;
+document.getElementById('shortcut-redo').value = sc.redo || DEFAULTS.shortcuts.redo;
+document.getElementById('shortcut-select').value = sc.select || DEFAULTS.shortcuts.select;
+document.getElementById('shortcut-pen').value = sc.pen || DEFAULTS.shortcuts.pen;
+document.getElementById('shortcut-line').value = sc.line || DEFAULTS.shortcuts.line;
+document.getElementById('shortcut-rect').value = sc.rect || DEFAULTS.shortcuts.rect;
+document.getElementById('shortcut-circle').value = sc.circle || DEFAULTS.shortcuts.circle;
+document.getElementById('shortcut-text').value = sc.text || DEFAULTS.shortcuts.text;
+}
+function saveSettings(){
+const settings = {
+canvasWidth: parseInt(document.getElementById('canvas-width').value,10) || DEFAULTS.canvasWidth,
+canvasHeight: parseInt(document.getElementById('canvas-height').value,10) || DEFAULTS.canvasHeight,
+showGrid: document.getElementById('grid-toggle').checked,
+bgColor: document.getElementById('bg-color').value,
+shortcuts: {
+undo: document.getElementById('shortcut-undo').value.trim() || DEFAULTS.shortcuts.undo,
+redo: document.getElementById('shortcut-redo').value.trim() || DEFAULTS.shortcuts.redo,
+select: document.getElementById('shortcut-select').value.trim() || DEFAULTS.shortcuts.select,
+pen: document.getElementById('shortcut-pen').value.trim() || DEFAULTS.shortcuts.pen,
+line: document.getElementById('shortcut-line').value.trim() || DEFAULTS.shortcuts.line,
+rect: document.getElementById('shortcut-rect').value.trim() || DEFAULTS.shortcuts.rect,
+circle: document.getElementById('shortcut-circle').value.trim() || DEFAULTS.shortcuts.circle,
+text: document.getElementById('shortcut-text').value.trim() || DEFAULTS.shortcuts.text
+}
+};
+localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+window.dispatchEvent(new CustomEvent('settings-changed', {detail: settings}));
+}
+document.getElementById('canvas-width').addEventListener('change', saveSettings);
+document.getElementById('canvas-height').addEventListener('change', saveSettings);
+document.getElementById('grid-toggle').addEventListener('change', saveSettings);
+document.getElementById('bg-color').addEventListener('input', saveSettings);
+['shortcut-undo','shortcut-redo','shortcut-select','shortcut-pen','shortcut-line','shortcut-rect','shortcut-circle','shortcut-text'].forEach(id=>{
+document.getElementById(id).addEventListener('change', saveSettings);
+});
+document.getElementById('reset-defaults').addEventListener('click',()=>{
+if(confirm('确定要恢复所有设置为默认值吗？')){
+localStorage.removeItem(STORAGE_KEY);
+loadSettings();
+saveSettings();
+}
+});
+// load on page load
+loadSettings();
+// also listen for storage events from other tabs/windows
+window.addEventListener('storage', e=>{
+if(e.key === STORAGE_KEY){
+try{
+const newVal = e.newValue ? JSON.parse(e.newValue) : null;
+if(newVal){
+ // update UI without triggering save
+document.getElementById('canvas-width').value = newVal.canvasWidth || DEFAULTS.canvasWidth;
+document.getElementById('canvas-height').value = newVal.canvasHeight || DEFAULTS.canvasHeight;
+document.getElementById('grid-toggle').checked = newVal.showGrid !== undefined ? newVal.showGrid : DEFAULTS.showGrid;
+document.getElementById('bg-color').value = newVal.bgColor || DEFAULTS.bgColor;
+['shortcut-undo','shortcut-redo','shortcut-select','shortcut-pen','shortcut-line','shortcut-rect','shortcut-circle','shortcut-text'].forEach(id=>{
+document.getElementById(id).value = newVal.shortcuts ? newVal.shortcuts[id] || DEFAULTS.shortcuts[id] : DEFAULTS.shortcuts[id];
+});
+}
+}catch(_){}
+}
+});
 })();
 </script>
-</section>
 
-    </div>
+</main>
 <footer data-a2a="footer" style="margin-top:48px;padding:28px 16px;border-top:1px solid rgba(127,127,127,.16);text-align:center;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.9;color:#8a8f99;background:transparent"><a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:10px"><img src="https://agent.oagi.com.cn/uploads/202606/29ea3ed5413830b3.png" alt="AutoA2A" style="height:36px;vertical-align:middle;border:0"></a><div style="font-size:13.5px;color:#6b7280;max-width:760px;margin:0 auto 6px">✅️ <b>AutoA2A</b> · 智能体互连 Agent to Agent 平台——让智能体无缝发现、协商、协作与安全交换数据，开启 AI 即服务新时代。</div><div style="font-size:13px">本网站由 <a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="color:#f2603c;text-decoration:none;font-weight:600">www.autoa2a.org</a> 多个 AI 协作生成</div><div style="font-size:12px;color:#aab;margin-top:6px">Copyright © 2025 - 2026 AutoA2A. All Rights Reserved. A2A版权所有</div></footer></body>
 </html>
