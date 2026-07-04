@@ -1,277 +1,299 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SVG 在线编辑器</title>
-    <style>
-        body {
-            font-family: 'Open Sans', Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-        }
-        .nav-bar {
-            background-color: #3498db;
-            color: #fff;
-            padding: 16px;
-            text-align: center;
-        }
-        .nav-bar nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: space-around;
-        }
-        .nav-bar nav ul li {
-            margin-right: 16px;
-        }
-        .nav-bar nav a {
-            color: #fff;
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-        .nav-bar nav a:hover {
-            color: #f1c40f;
-        }
-        .header {
-            background-color: #2ecc71;
-            color: #fff;
-            padding: 16px;
-            text-align: center;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 16px auto;
-            padding: 16px;
-            background-color: #fff;
-            border-radius: 4px;
-            box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
-        }
-        @media (max-width: 768px) {
-            .nav-bar nav ul {
-                flex-direction: column;
-            }
-            .nav-bar nav ul li {
-                margin-right: 0;
-                margin-bottom: 8px;
-            }
-            .container {
-                margin: 8px;
-                padding: 8px;
-            }
-        }
-    </style>
-<meta name="description" content="主编辑页面，提供协作编辑功能"><meta name="keywords" content="SVG, 在线编辑器, 协作编辑, 代码优化, 模板库"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="SVG 在线编辑器"><meta property="og:description" content="主编辑页面，提供协作编辑功能"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="SVG 在线编辑器"><meta name="twitter:description" content="主编辑页面，提供协作编辑功能"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"SVG 在线编辑器","description":"主编辑页面，提供协作编辑功能","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
+<meta charset="utf-8">
+<title>SVG 在线编辑器</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{
+    --primary:#2563eb;
+    --secondary:#10b981;
+    --bg:#fff;
+    --muted:#f9fafb;
+    --text:#1f2937;
+    --radius:8px;
+    --btn-radius:6px;
+    --unit:16px;
+}
+*, *::before, *::after{box-sizing:border-box;}
+html{font-size:100%;}
+body{
+    margin:0;
+    font-family:Inter,system-ui,sans-serif;
+    background:#f9fafb;
+    color:var(--text);
+    line-height:1.5;
+}
+header{
+    background:var(--bg);
+    box-shadow:0 1px 3px rgba(0,0,0,.08);
+    padding:calc(var(--unit)*0.5) 0;
+}
+nav{
+    display:flex;
+    gap:calc(var(--unit)*0.5);
+    overflow-x:auto;
+    padding:0 calc(var(--unit)*0.5);
+    scrollbar-width:none;
+}
+nav::-webkit-scrollbar{display:none;}
+nav a{
+    font-weight:500;
+    color:var(--text);
+    text-decoration:none;
+    background:var(--muted);
+    padding:calc(var(--unit)*0.25) calc(var(--unit)*0.5);
+    border-radius:var(--btn-radius);
+    white-space:nowrap;
+    transition:background .2s, color .2s;
+}
+nav a:hover{
+    background:#e0e7ff;
+    color:var(--primary);
+}
+main{
+    max-width:1200px;
+    margin:0 auto;
+    padding:calc(var(--unit)*2);
+}
+</style>
+<meta name="description" content="主编辑器页：提供可交互画布、工具栏（笔、直线、矩形、圆形、文字）、属性面板（填充色、描边色、线宽、图层顺序），实时渲染 SVG，支持撤销/重置、缩放平移，用户打开即可开始绘制。"><meta name="keywords" content="SVG,编辑器,在线绘图,矢量图形,导出"><meta name="robots" content="index,follow,max-image-preview:large"><meta property="og:type" content="website"><meta property="og:title" content="SVG 在线编辑器"><meta property="og:description" content="主编辑器页：提供可交互画布、工具栏（笔、直线、矩形、圆形、文字）、属性面板（填充色、描边色、线宽、图层顺序），实时渲染 SVG，支持撤销/重置、缩放平移，用户打开即可开始绘制。"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="SVG 在线编辑器"><meta name="twitter:description" content="主编辑器页：提供可交互画布、工具栏（笔、直线、矩形、圆形、文字）、属性面板（填充色、描边色、线宽、图层顺序），实时渲染 SVG，支持撤销/重置、缩放平移，用户打开即可开始绘制。"><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"SVG 在线编辑器","description":"主编辑器页：提供可交互画布、工具栏（笔、直线、矩形、圆形、文字）、属性面板（填充色、描边色、线宽、图层顺序），实时渲染 SVG，支持撤销/重置、缩放平移，用户打开即可开始绘制。","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"CNY"}}</script><style data-a2a="basecss">*,*::before,*::after{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img,canvas,svg,video,table{max-width:100%;height:auto}pre,code{white-space:pre-wrap;word-break:break-word}[data-a2a="header"]{width:100%}@media(max-width:640px){body{font-size:15px}}</style></head>
 <body>
-    <div class="nav-bar">
-        <nav>
-            <ul>
-                <li><a href="index.html">首页</a></li>
-                <li><a href="templates.html">模板库</a></li>
-                <li><a href="gallery.html">我的作品</a></li>
-                <li><a href="settings.html">设置</a></li>
-                <li><a href="export.html">导出与分享</a></li>
-                <li><a href="history.html">历史记录</a></li>
-                <li><a href="optimize.html">SVG 优化</a></li>
-                <li><a href="help.html">使用帮助</a></li>
-            </ul>
-        </nav>
-    </div>
-    <div class="header">
-        <h1>SVG 在线编辑器</h1>
-    </div>
-    <div class="container">
-        
-<divstyle="display:flex; gap:16px;">
-  <aside id="toolbar" style="width:200px; background:#f0f0f0; padding:12px; border-radius:4px;">
-    <h3 style="margin-top:0;margin-top:0;color:#3498db;">工具栏</h3>
-    <button id="tool-select" style="background:#2ecc71;color:#fff;border:none;padding:6px 10px;border-radius:4px;margin-right:4px;">选择</button>
-    <button id="tool-rect" style="background:#2ecc71;color:#fff;border:none;padding:6px 10px;border-radius:4px;margin-right:4px;">矩形</button>
-    <button id="tool-circle" style="background:#2ecc71;color:#fff;border:none;padding:6px 10px;border-radius:4px;margin-right:4px;">圆形</button>
-    <button id="tool-line" style="background:#2ecc71;color:#fff;border:none;padding:6px 10px;border-radius:4px;margin-right:4px;">直线</button>
-    <button id="tool-pen" style="background:#2ecc71;color:#fff;border:none;padding:6px 10px;border-radius:4px;margin-right:4px;">笔刷</button>
-    <hr style="border:none;border-top:1px solid #ddd;margin:12px 0;">
-    <button id="btn-undo" style="background:#2ecc71;color:#fff;border:none;padding:6px 10px;border-radius:4px;margin-right:4px;">撤销 (Ctrl+Z)</button>
-    <button id="btn-redo" style="background:#2ecc71;color:#fff;border:none;padding:6px 10px;border-radius:4px;margin-right:4px;">重做 (Ctrl+Y)</button>
-    <button id="btn-clear" style="background:#e74c3c;color:#fff;border:none;padding:6px 10px;border-radius:4px;margin-right:4px;">清空画布</button>
-    <hr style="border:none;border-top:1px solid #ddd;margin:12px 0;">
-    <button id="btn-save" style="background:#2ecc71;color:#fff;border:none;padding:6px 10px;border-radius:4px;margin-right:4px;">保存到本地</button>
-    <button id="btn-load" style="background:#2ecc71;color:#fff;border:none;padding:6px 10px;border-radius:4px;margin-right:4px;">从本地加载</button>
-    <hr style="border:none;border-top:1px solid #ddd;margin:12px 0;">
-    <a href="templates.html?id=template" style="display:block;width:100%;text-align:center;background:#3498db;color:#fff;padding:6px 10px;border-radius:4px;text-decoration:none;">模板库</a>
-    <a href="gallery.html?id=gallery" style="display:block;width:100%;text-align:center;background:#3498db;color:#fff;padding:6px 10px;border-radius:4px;margin-top:8px;text-decoration:none;">我的作品</a>
-  </aside>
+<header>
+<nav>
+<a href="index.html">首页</a>
+<a href="template.html">模板库</a>
+<a href="import-export.html">导入/导出</a>
+<a href="settings.html">编辑器设置</a>
+<a href="history.html">编辑历史</a>
+</nav>
+</header>
+<main>
 
-  <section id="canvas-wrapper" style="flex:1; position:relative; background:#fff; border-radius:4px; overflow:hidden;">
-    <svg id="drawing" width="100%" height="100%" style="display:block;background:#fff;"></svg>
-    <div id="status" style="position:absolute;bottom:0;left:0;right:0;height:20px;background:#3498db;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;">就绪</div>
-  </section>
-
-  <aside id="props" style="width:260px; background:#f0f0f0; padding:12px; border-radius:4px;">
-    <h3 style="margin-top:0;color:#3498db;">属性面板</h3>
-    <div id="no-selection" style="color:#6b7280;font-style:italic;">请选择一个图形</div>
-    <div id="selection-props" style="display:none;">
-      <label style="display:block;margin-bottom:8px;">填充色 <input type="color" id="prop-fill" value="#ffffff"></label>
-      <label style="display:block;margin-bottom:8px;">描边色 <input type="color" id="prop-stroke" value="#000000"></label>
-      <label style="display:block;margin-bottom:8px;">描边宽度 
-        <input type="range" id="prop-width" min="1" max="20" value="2">
-        <span id="width-value">2</span>px
-      </label>
-    </div>
-  </aside>
+<section class='section'>
+<h2 class='section-title'>SVG 在线编辑器</h2>
+<div class='section-content' style='display:flex;gap:calc(var(--unit)*2);'>
+<!-- 工具栏 -->
+<div style='display:flex;flex-direction:column;gap:calc(var(--unit)*0.5);width:calc(var(--unit)*6);'>
+<button id='btnPen' style='background:var(--primary);color:#fff;border:none;padding:calc(var(--unit)*0.25) calc(var(--unit)*0.5);border-radius:var(--btn-radius);cursor:pointer;font-weight:500;'>笔</button>
+<button id='btnLine' style='background:var(--muted);color:var(--text);border:none;padding:calc(var(--unit)*0.25) calc(var(--unit)*0.5);border-radius:var(--btn-radius);cursor:pointer;font-weight:500;'>直线</button>
+<button id='btnRect' style='background:var(--muted);color:var(--text);border:none;padding:calc(var(--unit)*0.25) calc(var(--unit)*0.5);border-radius:var(--btn-radius);cursor:pointer;font-weight:500;'>矩形</button>
+<button id='btnCircle' style='background:var(--muted);color:var(--text);border:none;padding:calc(var(--unit)*0.25) calc(var(--unit)*0.5);border-radius:var(--btn-radius);cursor:pointer;font-weight:500;'>圆形</button>
+<button id='btnText' style='background:var(--muted);color:var(--text);border:none;padding:calc(var(--unit)*0.25) calc(var(--unit)*0.5);border-radius:var(--btn-radius);cursor:pointer;font-weight:500;'>文字</button>
+<div style='margin-top:calc(var(--unit)*1);'>
+<button id='btnUndo' style='background:var(--muted);color:var(--text);border:none;padding:calc(var(--unit)*0.25) calc(var(--unit)*0.5);border-radius:var(--btn-radius);cursor:pointer;font-weight:500;'>撤销</button>
+<button id='btnRedo' style='background:var(--muted);color:var(--text);border:none;padding:calc(var(--unit)*0.25) calc(var(--unit)*0.5);border-radius:var(--btn-radius);cursor:pointer;font-weight:500;'>重做</button>
+</div>
 </div>
 
+<!-- 画布 -->
+<div style='flex:1;position:relative;'>
+<svg id='drawing' width='100%' height='100%' viewBox='0 0 800 600' style='background:#fff;border:1px solid var(--muted);display:block;touch-action:none;'></svg>
+</div>
+
+<!-- 属性面板 -->
+<div style='display:flex;flex-direction:column;gap:calc(var(--unit)*0.5);width:calc(var(--unit)*6);'>
+<div>
+<label style='font-weight:500;display:block;margin-bottom:calc(var(--unit)*0.25);'>填充色</label>
+<input type='color' id='fillColor' value='#ffffff' style='width:100%;padding:calc(var(--unit)*0.25);border-radius:var(--btn-radius);border:1px solid var(--muted);'>
+</div>
+<div>
+<label style='font-weight:500;display:block;margin-bottom:calc(var(--unit)*0.25);'>描边色</label>
+<input type='color' id='strokeColor' value='#000000' style='width:100%;padding:calc(var(--unit)*0.25);border-radius:var(--btn-radius);border:1px solid var(--muted);'>
+</div>
+<div>
+<label style='font-weight:500;display:block;margin-bottom:calc(var(--unit)*0.25);'>线宽</label>
+<input type='range' id='strokeWidth' min='1' max='20' value='2' style='width:100%;'>
+</div>
+<div>
+<label style='font-weight:500;display:block;margin-bottom:calc(var(--unit)*0.25);'>图层顺序</label>
+<div style='display:flex;gap:calc(var(--unit)*0.5);'>
+<button id='btnBringForward' style='background:var(--muted);color:var(--text);border:none;padding:calc(var(--unit)*0.25) calc(var(--unit)*0.5);border-radius:var(--btn-radius);cursor:pointer;font-weight:500;'>前移</button>
+<button id='btnSendBackward' style='background:var(--muted);color:var(--text);border:none;padding:calc(var(--unit)*0.25) calc(var(--unit)*0.5);border-radius:var(--btn-radius);cursor:pointer;font-weight:500;'>后移</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+
 <script>
-(function(){
-  const svg = document.getElementById('drawing');
-  const status = document.getElementById('status');
-  const tools = {
-    select: document.getElementById('tool-select'),
-    rect:   document.getElementById('tool-rect'),
-    circle: document.getElementById('tool-circle'),
-    line:   document.getElementById('tool-line'),
-    pen:    document.getElementById('tool-pen')
-  };
-  const undoBtn = document.getElementById('btn-undo');
-  const redoBtn = document.getElementById('btn-redo');
-  const clearBtn = document.getElementById('btn-clear');
-  const saveBtn = document.getElementById('btn-save');
-  const loadBtn = document.getElementById('btn-load');
-  const propFill = document.getElementById('prop-fill');
-  const propStroke = document.getElementById('prop-stroke');
-  const propWidth = document.getElementById('prop-width');
-  const widthValue = document.getElementById('width-value');
-  const noSelection = document.getElementById('no-selection');
-  const selectionProps = document.getElementById('selection-props');
+// SVG 在线编辑器核心逻辑
+const svg = document.getElementById('drawing');
+let undoStack = [];
+let redoStack = [];
+let currentTool = 'pen';
+let isDrawing = false;
+let startPoint = null;
+let currentPath = null;
 
-  let currentTool = 'select';
-  let isDrawing = false;
-  let startX, startY;
-  let selectedElement = null;
-  const history = [];
-  let historyIndex = -1;
+// 颜色和线宽
+const fillColorInput = document.getElementById('fillColor');
+const strokeColorInput = document.getElementById('strokeColor');
+const strokeWidthInput = document.getElementById('strokeWidth');
 
-  function setStatus(msg){ status.textContent = msg; }
-  function saveState(){ history.push(svg.innerHTML); historyIndex++; redoBtn.disabled = true; undoBtn.disabled = historyIndex===0; }
-  function undo(){
-    if(historyIndex>0){ historyIndex--; svg.innerHTML = history[historyIndex]; updateBtns(); }
-  }
-  function redo(){
-    if(historyIndex<history.length-1){ historyIndex++; svg.innerHTML = history[historyIndex]; updateBtns(); }
-  }
-  function updateBtns(){ undoBtn.disabled = historyIndex===0; redoBtn.disabled = historyIndex===history.length-1; }
-  function clear(){ svg.innerHTML=''; history.length=0; historyIndex=-1; updateBtns(); setStatus('画布已清空'); }
-  function save(){ try{ localStorage.setItem('svgEditor', svg.innerHTML); setStatus('已保存到本地'); }catch(e){ setStatus('保存失败'); } }
-  function load(){ const data = localStorage.getItem('svgEditor'); if(data){ svg.innerHTML=data; history.length=0; historyIndex=-1; updateBtns(); setStatus('已从本地加载'); }else{ setStatus('本地无数据'); } }
+// 工具按钮
+document.getElementById('btnPen').onclick = () => setTool('pen');
+document.getElementById('btnLine').onclick = () => setTool('line');
+document.getElementById('btnRect').onclick = () => setTool('rect');
+document.getElementById('btnCircle').onclick = () => setTool('circle');
+document.getElementById('btnText').onclick = () => setTool('text');
+document.getElementById('btnUndo').onclick = undo;
+document.getElementById('btnRedo').onclick = redo;
+document.getElementById('btnBringForward').onclick = () => changeZIndex(1);
+document.getElementById('btnSendBackward').onclick = () => changeZIndex(-1);
 
-  function activateTool(tool){
-    Object.values(tools).forEach(b=>b.style.background='#2ecc71');
-    tools[tool].style.background='#27ae60';
+function setTool(tool) {
     currentTool = tool;
-  }
-  function selectElement(evt){
-    const target = evt.target;
-    if(target===svg || !target.tagName||target.tagName.toLowerCase()!=='svg'){ selectedElement = target; }
-    else{ selectedElement = null; }
-    if(selectedElement){
-      noSelection.style.display='none';
-      selectionProps.style.display='block';
-      propFill.value = selectedElement.getAttribute('fill')||'#ffffff';
-      propStroke.value = selectedElement.getAttribute('stroke')||'#000000';
-      propWidth.value = selectedElement.getAttribute('stroke-width')||2;
-      widthValue.textContent = propWidth.value;
-    }else{
-      noSelection.style.display='block';
-      selectionProps.style.display='none';
-    }
-  }
-  function startDraw(evt){
+    // 可视化选中状态（简单实现）
+    document.querySelectorAll('#toolbar button').forEach(b => b.style.background = var(--muted));
+    if (tool === 'pen') document.getElementById('btnPen').style.background = var(--primary);
+    else if (tool === 'line') document.getElementById('btnLine').style.background = var(--primary);
+    else if (tool === 'rect') document.getElementById('btnRect').style.background = var(--primary);
+    else if (tool === 'circle') document.getElementById('btnCircle').style.background = var(--primary);
+    else if (tool === 'text') document.getElementById('btnText').style.background = var(--primary);
+}
+
+// 鼠标事件
+svg.addEventListener('mousedown', e => {
     isDrawing = true;
-    startX = evt.offsetX; startY = evt.offsetY;
-  }
-  function endDraw(evt){
-    if(!isDrawing) return;
+    startPoint = {x: e.offsetX, y: e.offsetY};
+    if (currentTool === 'pen') {
+        currentPath = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+        currentPath.setAttribute('fill', 'none');
+        currentPath.setAttribute('stroke', strokeColorInput.value);
+        currentPath.setAttribute('stroke-width', strokeWidthInput.value);
+        currentPath.setAttribute('points', `${startPoint.x},${startPoint.y}`);
+        svg.appendChild(currentPath);
+    }
+});
+svg.addEventListener('mousemove', e => {
+    if (!isDrawing) return;
+    if (currentTool === 'pen' && currentPath) {
+        const points = currentPath.getAttribute('points');
+        currentPath.setAttribute('points', `${points} ${e.offsetX},${e.offsetY}`);
+    } else if (['line','rect','circle'].includes(currentTool)) {
+        // 预览临时图形
+        let preview = document.getElementById('preview');
+        if (!preview) {
+            preview = document.createElementNS('http://www.w3.org/2000/svg', currentTool === 'line' ? 'line' : currentTool === 'rect' ? 'rect' : 'circle');
+            preview.setAttribute('id', 'preview');
+            preview.setAttribute('stroke', strokeColorInput.value);
+            preview.setAttribute('stroke-width', strokeWidthInput.value);
+            preview.setAttribute('fill', fillColorInput.value === '' ? 'none' : fillColorInput.value);
+            svg.appendChild(preview);
+        }
+        const x = Math.min(startPoint.x, e.offsetX), y = Math.min(startPoint.y, e.offsetY);
+        const width = Math.abs(e.offsetX - startPoint.x), height = Math.abs(e.offsetY - startPoint.y);
+        if (currentTool === 'line') {
+            preview.setAttribute('x1', startPoint.x);
+            preview.setAttribute('y1', startPoint.y);
+            preview.setAttribute('x2', e.offsetX);
+            preview.setAttribute('y2', e.offsetY);
+        } else if (currentTool === 'rect') {
+            preview.setAttribute('x', x);
+            preview.setAttribute('y', y);
+            preview.setAttribute('width', width);
+            preview.setAttribute('height', height);
+        } else if (currentTool === 'circle') {
+            const rx = width / 2, ry = height / 2;
+            preview.setAttribute('cx', startPoint.x);
+            preview.setAttribute('cy', startPoint.y);
+            preview.setAttribute('rx', rx);
+            preview.setAttribute('ry', ry);
+        }
+    }
+});
+svg.addEventListener('mouseup', e => {
+    if (!isDrawing) return;
     isDrawing = false;
-    const endX = evt.offsetX, endY = evt.offsetY;
-    let elem;
-    switch(currentTool){
-      case 'rect':
-        const w = Math.abs(endX-startX), h = Math.abs(endY-startY);
-        elem = document.createElementNS('http://www.w3.org/2000/svg','rect');
-        elem.setAttribute('x', Math.min(startX,endX));
-        elem.setAttribute('y', Math.min(startY,endY));
-        elem.setAttribute('width', w);
-        elem.setAttribute('height', h);
-        break;
-      case 'circle':
-        const r = Math.sqrt(Math.pow(endX-startX,2)+Math.pow(endY-startY,2));
-        elem = document.createElementNS('http://www.w3.org/2000/svg','circle');
-        elem.setAttribute('cx', startX);
-        elem.setAttribute('cy', startY);
-        elem.setAttribute('r', r);
-        break;
-      case 'line':
-        elem = document.createElementNS('http://www.w3.org/2000/svg','line');
-        elem.setAttribute('x1', startX);
-        elem.setAttribute('y1', startY);
-        elem.setAttribute('x2', endX);
-        elem.setAttribute('y2', endY);
-        break;
-      case 'pen':
-        // simple freehand: create a polyline with two points (will be extended on move)
-        elem = document.createElementNS('http://www.w3.org/2000/svg','polyline');
-        elem.setAttribute('points', `${startX},${startY} ${endX},${endY}`);
-        break;
+    if (currentTool === 'pen' && currentPath) {
+        // 完成笔画
+        pushHistory(currentPath);
+        currentPath = null;
+    } else if (['line','rect','circle'].includes(currentTool)) {
+        const preview = document.getElementById('preview');
+        if (preview) {
+            const shape = preview.cloneNode(true);
+            shape.removeAttribute('id');
+            pushHistory(shape);
+            preview.remove();
+        }
+    } else if (currentTool === 'text') {
+        const text = prompt('请输入文字内容：');
+        if (text !== null && text !== '') {
+            const textEl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            textEl.setAttribute('x', e.offsetX);
+            textEl.setAttribute('y', e.offsetY);
+            textEl.setAttribute('fill', strokeColorInput.value);
+            textEl.setAttribute('font-size', `${strokeWidthInput.value*2}px`);
+            textEl.textContent = text;
+            pushHistory(textEl);
+        }
     }
-    if(elem){
-      elem.setAttribute('fill', propFill.value);
-      elem.setAttribute('stroke', propStroke.value);
-      elem.setAttribute('stroke-width', propWidth.value);
-      elem.setAttribute('style', 'cursor:move;');
-      svg.appendChild(elem);
-      selectedElement = elem;
-      selectElement({target:elem});
-      saveState();
+    // 清除预览
+    const preview = document.getElementById('preview');
+    if (preview) preview.remove();
+});
+
+function pushHistory(el) {
+    undoStack.push(el);
+    redoStack = []; // 新操作清空重做栈
+    // 可选：限制栈大小
+    if (undoStack.length > 50) undoStack.shift();
+}
+
+function undo() {
+    if (undoStack.length === 0) return;
+    const last = undoStack.pop();
+    last.style.display = 'none';
+    redoStack.push(last);
+}
+function redo() {
+    if (redoStack.length === 0) return;
+    const last = redoStack.pop();
+    last.style.display = '';
+    undoStack.push(last);
+}
+function changeZIndex(delta) {
+    const selected = document.querySelector('svg *[selected]') || svg.lastElementChild;
+    if (!selected) return;
+    const current = parseInt(selected.getAttribute('data-z') || '0');
+    selected.setAttribute('data-z', current + delta);
+    // 简单重新排序
+    svg.appendChild(selected);
+}
+
+// 缩放平移（鼠标滚轮 + 拖拽）
+let scale = 1;
+let translateX = 0, translateY = 0;
+let isPanning = false;
+let panStart = {x:0, y:0};
+
+svg.addEventListener('wheel', e => {
+    e.preventDefault();
+    const zoom = e.deltaY < 0 ? 1.1 : 0.9;
+    scale *= zoom;
+    svg.setAttribute('viewBox', `${-translateX/scale} ${-translateY/scale} ${800/scale} ${600/scale}`);
+});
+svg.addEventListener('mousedown', e => {
+    if (e.button === 1) { // 中键平移
+        isPanning = true;
+        panStart = {x: e.clientX, y: e.clientY};
     }
-  }
-  function onMove(evt){
-    if(!isDrawing) return;
-    if(currentTool==='pen'){
-      const polyline = selectedElement;
-      const points = polyline.getAttribute('points');
-      polyline.setAttribute('points', points + ` ${evt.offsetX},${evt.offsetY}`);
-    }
-  }
-  function updateProps(){
-    if(!selectedElement) return;
-    selectedElement.setAttribute('fill', propFill.value);
-    selectedElement.setAttribute('stroke', propStroke.value);
-    selectedElement.setAttribute('stroke-width', propWidth.value);
-    widthValue.textContent = propWidth.value;
-    saveState();
-  }
-  // event wiring
-  Object.entries(tools).forEach(([k,b])=>b.onclick=()=>activateTool(k));
-  undoBtn.onclick = undo;
-  redoBtn.onclick = redo;
-  clearBtn.onclick = clear;
-  saveBtn.onclick = save;
-  loadBtn.onclick = load;
-  propFill.onchange = updateProps;
-  propStroke.onchange = updateProps;
-  propWidth.oninput = updateProps;
-  svg.onmousedown = startDraw;
-  svg.onmouseup = endDraw;
-  svg.onmousemove = onMove;
-  svg.onclick = selectElement;
-  // init
-  activateTool('select');
-  load();
-})();
+});
+svg.addEventListener('mousemove', e => {
+    if (!isPanning) return;
+    const dx = e.clientX - panStart.x;
+    const dy = e.clientY - panStart.y;
+    panStart = {x: e.clientX, y: e.clientY};
+    translateX -= dx;
+    translateY -= dy;
+    svg.setAttribute('viewBox', `${-translateX/scale} ${-translateY/scale} ${800/scale} ${600/scale}`);
+});
+svg.addEventListener('mouseup', e => { if (e.button === 1) isPanning = false; });
+svg.addEventListener('mouseleave', () => { isPanning = false; });
 </script>
 
-    </div>
+</main>
 <footer data-a2a="footer" style="margin-top:48px;padding:28px 16px;border-top:1px solid rgba(127,127,127,.16);text-align:center;font-family:system-ui,-apple-system,'PingFang SC',sans-serif;line-height:1.9;color:#8a8f99;background:transparent"><a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="display:inline-block;margin-bottom:10px"><img src="https://agent.oagi.com.cn/uploads/202606/29ea3ed5413830b3.png" alt="AutoA2A" style="height:36px;vertical-align:middle;border:0"></a><div style="font-size:13.5px;color:#6b7280;max-width:760px;margin:0 auto 6px">✅️ <b>AutoA2A</b> · 智能体互连 Agent to Agent 平台——让智能体无缝发现、协商、协作与安全交换数据，开启 AI 即服务新时代。</div><div style="font-size:13px">本网站由 <a href="https://www.autoa2a.org" target="_blank" rel="noopener" style="color:#f2603c;text-decoration:none;font-weight:600">www.autoa2a.org</a> 多个 AI 协作生成</div><div style="font-size:12px;color:#aab;margin-top:6px">Copyright © 2025 - 2026 AutoA2A. All Rights Reserved. A2A版权所有</div></footer></body>
 </html>
